@@ -1,0 +1,82 @@
+header {
+    width: 100%;
+    margin: 20px auto 0;
+    max-width: 80rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 40px;
+    height: 80px;
+    margin-top: 20px;
+    top: 0;
+    z-index: 1000;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
+}
+
+.logo_div {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    cursor: pointer;
+}
+
+.header_logo {
+    width: 2.5rem;
+    height: auto;
+    cursor: pointer;
+}
+
+.logo_div p {
+    color: white;
+    font-size: 24px;
+    margin: 0;
+}
+
+.info_block {
+    display: flex;
+    align-items: center;
+    gap: 40px;
+    justify-content: center;
+    flex: 1;
+    font-size: 24px;
+    color: white;
+}
+
+.info_block p {
+    position: relative;
+    cursor: pointer;
+    color: white;
+    font-size: 24px;
+}
+
+.info_block p::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    bottom: -4px;
+    width: 0;
+    height: 2px;
+    background-color: white;
+    transition: width 0.4s ease-in-out;
+}
+.login_btn {
+    width: 7rem;
+}
+
+.info_block p:hover::after {
+    width: 100%;
+}
+
+.login_block {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    width: 200px;
+    color: white;
+    font-size: 28px;
+}
+
+.logo_icon {
+    margin-right: 1rem;
+}

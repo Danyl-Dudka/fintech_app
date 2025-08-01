@@ -1,0 +1,131 @@
+.features_wrapper {
+    margin-top: 1rem;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+}
+
+.special_word_title {
+    font-style: italic;
+}
+
+.title_features {
+    font-weight: 100;
+    display: flex;
+    flex-direction: column;
+    color: white;
+    font-size: 2rem;
+}
+
+.info_features {
+    margin-top: 5rem;
+    color: white;
+}
+
+.features_info_title {
+    font-size: 3rem;
+}
+
+.features_info_subtitle {
+    margin-top: 3rem;
+    color: gray;
+    font-size: 1.5rem;
+}
+
+.first_row_cards {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.2rem;
+    margin-bottom: 5rem;
+    margin-top: 5rem;
+}
+
+.first_card_first_row {
+    width: 22.5rem;
+    height: 24.5rem;
+    border: 1px solid gray;
+    border-radius: 15px;
+}
+
+.second_card_first_row {
+    width: 22.5rem;
+    height: 24.5rem;
+    margin-left: 5rem;
+    border: 1px solid gray;
+    border-radius: 15px;
+}
+
+.third_card_first_row {
+    width: 22.5rem;
+    height: 24.5rem;
+    border: 1px solid gray;
+    border-radius: 15px;
+    margin-left: 5rem;
+}
+
+.first_row_card_title {
+    color: white;
+    margin-left: 1.5rem;
+    font-size: 1.4rem;
+}
+
+.second_row_card_title {
+    color: white;
+    margin-left: 1.5rem;
+    font-size: 1.4rem;
+}
+
+.second_row_card_subtitle {
+    margin-top: 2rem;
+    color: gray;
+    font-size: 1.1rem;
+    margin-left: 1.5rem;
+    width: 17rem;
+}
+
+.card_icon {
+    margin-right: 1rem;
+}
+
+.first_row_card_subtitle {
+    margin-top: 2rem;
+    color: gray;
+    font-size: 1.1rem;
+    margin-left: 1.5rem;
+    width: 17rem;
+}
+
+.first_row_picture {
+    margin-left: 1.5rem;
+    cursor: pointer;
+}
+
+.second_row_cards {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.2rem;
+    margin-bottom: 10rem;
+    margin-top: 5rem;
+}
+
+.first_card_second_row {
+    width: 50rem;
+    height: 28rem;
+    border: 1px solid gray;
+    border-radius: 15px;
+}
+
+.second_card_second_row {
+    width: 22.5rem;
+    height: 28rem;
+    border: 1px solid gray;
+    border-radius: 15px;
+    margin-left: 5rem;
+}
+
+.second_row_picture {
+    margin-left: 1.5rem;
+    cursor: pointer;
+}

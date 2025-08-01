@@ -1,0 +1,55 @@
+.dashboard_wrapper {
+    margin-top: 5rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    padding: 2rem;
+    color: white;
+    flex-direction: column;
+}
+
+.dashboard_info {
+    max-width: 800px;
+    display: flex;
+    flex-direction: column;
+    gap: 1.2rem;
+}
+
+.dashboard_title {
+    font-size: 3rem;
+    font-weight: bold;
+}
+
+.dashboard_subtitle {
+    font-size: 1.5rem;
+    font-style: italic;
+    color: gray;
+    margin-top: -0.8rem;
+}
+
+.word_dashboard_title {
+    display: block;
+    font-style: italic;
+    font-weight: 100;
+}
+
+.dashboard_description {
+    font-size: 1rem;
+    color: #cccccc;
+    line-height: 1.6;
+}
+
+.dashboard_pictures {
+    margin-top: 2rem;
+    margin-bottom: 5rem;
+}
+
+.financial_insights_picture {
+    cursor: pointer;
+}
+
+.financial_metrics_picture {
+    margin-left: 3rem;
+    cursor: pointer;
+}

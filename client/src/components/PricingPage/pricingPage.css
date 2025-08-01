@@ -1,0 +1,129 @@
+.pricing_wrapper {
+    margin-top: 5rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    padding: 2rem;
+    color: white;
+    flex-direction: column;
+}
+
+.pricing_info {
+    max-width: 70rem;
+    width: 100%;
+}
+
+.pricing_text {
+    margin-bottom: 3rem;
+}
+
+.pricing_title {
+    font-size: 3rem;
+}
+
+.pricing_subtitle {
+    font-size: 1.5rem;
+    color: gray;
+    max-width: 50rem;
+    margin: 0 auto;
+}
+
+.pricing_special_word {
+    font-style: italic;
+    font-weight: 100;
+    display: block;
+}
+
+.pricing_cards {
+    margin-top: 5rem;
+    display: flex;
+    justify-content: center;
+    gap: 2rem;
+    max-width: 80rem;
+    margin: 6rem auto;
+}
+
+.pricing_first_card,
+.pricing_second_card {
+    width: 32rem;
+    height: 40rem;
+    text-align: left;
+    border-radius: 30px;
+}
+
+.pricing_first_card {
+    border: 1px solid rgba(128, 128, 128, 0.561);
+}
+
+.pricing_second_card {
+    background-image: url('/background_for_premium.png');
+    background-position: 30%;
+    background-size: cover;
+    background-repeat: no-repeat;
+    border: 1px solid rgb(25, 118, 210)
+}
+
+.price_title {
+    font-size: 2rem;
+    margin-left: 2rem;
+    margin-top: 3rem;
+    font-weight: 200;
+}
+
+.price_money {
+    font-size: 1.7rem;
+    margin-left: 2rem;
+}
+
+.price_subtitle {
+    margin-left: 2rem;
+    font-size: 1.1rem;
+    max-width: 28rem;
+    color: gray;
+}
+
+.button_container {
+    display: flex;
+    justify-content: center;
+}
+
+.standart_button {
+    max-width: 28rem;
+    width: 100%;
+    background-color: white !important;
+    color: black !important;
+    font-family: 'Mozilla Headline' !important;
+    font-weight: 400 !important;
+}
+
+.premium_button {
+    max-width: 28rem;
+    width: 100%;
+    font-family: 'Mozilla Headline' !important;
+    font-weight: 400 !important;
+}
+
+.cycle_info {
+    text-align: center;
+    color: gray;
+    font-weight: 100;
+    font-size: 1rem;
+}
+
+.start_of_ul {
+    margin-left: 2rem;
+    margin-top: 3rem;
+    font-size: 1.3rem;
+}
+
+.check_icon {
+    margin-left: -0.5rem;
+}
+
+.element_of_features {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    margin-top: 0.5rem;
+}

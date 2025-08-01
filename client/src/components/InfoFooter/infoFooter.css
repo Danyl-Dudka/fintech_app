@@ -1,0 +1,85 @@
+footer {
+    display: flex;
+    justify-content: center;
+}
+
+.logo_element {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 24px;
+    cursor: pointer;
+}
+
+.info_blocks {
+    display: flex;
+    align-items: flex-start;
+    justify-content: center;
+    gap: 100px;
+    height: 300px;
+    border-top: 2px solid;
+    border-bottom: 2px solid;
+    border-image-slice: 1;
+    border-image-source: linear-gradient(to right, black, gray, black);
+    padding-top: 50px;
+    max-width: 80rem;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+li {
+    list-style: none;
+}
+
+.logo_description {
+    cursor: pointer;
+    margin-top: 30px;
+    font-size: 20px;
+    color: rgb(200, 200, 200);
+    cursor: pointer;
+}
+
+.regular_element {
+    position: relative;
+    cursor: pointer;
+    color: rgb(128, 128, 128);
+    transition: color 0.3s ease;
+    margin-top: 10px;
+    font-size: 18px;
+}
+
+.regular_element::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    bottom: -2px;
+    width: 0;
+    height: 1px;
+    background-color: white;
+    transition: width 0.4s ease-in-out;
+}
+
+.regular_element:hover::after {
+    width: 100%;
+}
+
+.regular_li {
+    margin-top: 14px;
+}
+
+.main_li {
+    font-size: 24px;
+    cursor: pointer;
+}
+
+.footer_label {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: rgba(128, 128, 128, 0.679);
+    margin-top: 3rem;
+    margin-bottom: 2rem;
+}
+.logo_icon {
+    margin-right: 1rem;
+}
