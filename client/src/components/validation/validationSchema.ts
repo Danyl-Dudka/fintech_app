@@ -1,0 +1,10 @@
+import * as yup from 'yup';
+
+const registerSchema = yup.object().shape({
+    fullname: yup.string().required("Fullname is required").min(3, "Fullname must be at least 3 characters"),
+    login: yup.string().required("Login is required").min(5, "Login must be at least 5 characters").max(16, "Login length must not exceed 16 characters"),
+    password: yup.string().required("Password is required").min(5, "Password must be at least 5 characters"),
+    confirmPassword: yup.string().required('Password confirmation is required').oneOf([yup.ref('password')], 'Password must match'),
+})
+
+export default registerSchema;

@@ -10,6 +10,8 @@ import ContactsPage from "./ContactsPage/ContactsPage";
 import DashboardPage from "./DashboardPage/DashboardPage";
 import FeaturesPage from "./FeaturesPage/FeaturesPage";
 import PricingPage from "./PricingPage/PricingPage";
+import LoginPage from "./LoginPage/LoginPage";
+import RegisterPage from "./RegisterPage/RegisterPage";
 export default function Content() {
   const { isAuth } = useContext(AuthContext);
 
@@ -124,6 +126,36 @@ export default function Content() {
           }
         />
 
+        <Route
+          path="/login"
+          element={<motion.div
+            initial="initial"
+            animate="in"
+            exit="out"
+            variants={pageVariants}
+            transition={pageTransition}
+            style={{ height: "100%" }}
+          >
+            <LoginPage />
+          </motion.div>
+          }
+        />
+
+
+        <Route
+          path="/register"
+          element={<motion.div
+            initial="initial"
+            animate="in"
+            exit="out"
+            variants={pageVariants}
+            transition={pageTransition}
+            style={{ height: "100%" }}
+          >
+            <RegisterPage />
+          </motion.div>
+          }
+        />
       </Routes>
     </AnimatePresence>
   )

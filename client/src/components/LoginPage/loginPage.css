@@ -1,0 +1,149 @@
+.login_wrapper {
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: linear-gradient(to right, #294c92, #0a0f1f);
+    font-family: sans-serif;
+}
+
+.login_inputs {
+    background-color: #1f2937;
+    padding: 2rem;
+    border-radius: 16px;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4);
+    width: 24rem;
+    text-align: center;
+}
+
+.login_field,
+.password_field {
+    width: 100% !important;
+    margin: 0.5rem 0;
+}
+
+.login_input,
+.password_input {
+    margin-bottom: 1.5rem;
+    text-align: left;
+}
+
+.login_field .MuiOutlinedInput-root,
+.password_field .MuiOutlinedInput-root {
+    background-color: #fff;
+    border-radius: 6px;
+    padding-top: 4px !important;
+    padding-bottom: 4px !important;
+}
+
+.login_field input,
+.password_field input {
+    padding-top: 8px !important;
+    padding-bottom: 8px !important;
+    color: #000;
+}
+
+.login_field .MuiOutlinedInput-notchedOutline,
+.password_field .MuiOutlinedInput-notchedOutline {
+    border: none;
+    transition: border 0.3s ease;
+
+    top: -2px;
+    height: calc(100% + 4px);
+    box-sizing: border-box;
+    border-radius: 6px;
+}
+
+
+.login_field .MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline,
+.password_field .MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline {
+    border: 2px solid #4a86e7;
+    border-radius: 6px;
+}
+
+.login_field .MuiOutlinedInput-notchedOutline legend,
+.password_field .MuiOutlinedInput-notchedOutline legend {
+    display: none;
+}
+
+.login_field .MuiInputLabel-root,
+.password_field .MuiInputLabel-root {
+    display: none;
+}
+
+
+.login_field input,
+.password_field input {
+    color: #000;
+}
+
+.login_button_container {
+    margin-top: 1rem;
+}
+
+.MuiButton-root.login_button {
+    background-color: #4a86e7 !important;
+    color: white !important;
+    width: 100% !important;
+    height: 3rem;
+    font-weight: bold;
+    display: flex !important;
+    justify-content: center !important;
+    align-items: center;
+}
+
+.register_button_container {
+    margin-top: 1rem;
+    display: flex;
+    justify-content: center;
+    gap: 0.5rem;
+}
+
+.no_account_p {
+    margin: 0;
+    font-size: 0.9rem;
+    color: #9ca3af;
+    cursor: pointer;
+}
+
+.no_account_p:hover {
+    color: rgb(98, 98, 223);
+}
+
+.register_button {
+    color: #3b82f6 !important;
+    font-weight: bold;
+    text-transform: none !important;
+}
+
+.icon_container {
+    background-color: #1e3a8a;
+    width: 60px;
+    height: 60px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    margin: 0 auto 1rem;
+}
+
+.icon {
+    color: rgb(75, 235, 244);
+    font-size: 2.5rem;
+}
+
+.sign_information {
+    font-size: 24px;
+    color: white;
+    font-weight: bold;
+}
+
+.login_input span,
+.password_input span {
+    display: block;
+    font-size: 1rem;
+    font-weight: 500;
+    color: rgba(255, 255, 255, 0.716);
+    margin-bottom: 0.25rem;
+    text-align: left;
+}

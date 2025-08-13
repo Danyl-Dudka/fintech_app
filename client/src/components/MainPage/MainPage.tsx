@@ -12,7 +12,7 @@ export default function MainPage() {
             <p className='subtitle'>Clear, intuitive tools for smarter budgeting</p>
             <Button variant='contained' onClick={() => navigate('/login')}>Get started<MoveRight className='arrow_icon' /></Button>
             <div className='image-wrapper'>
-                <img src="/example_page.png" alt="example_project_page" />
+                <img className='main_page_picture' src="/example_page.png" alt="example_project_page" />
             </div>
         </div>
     )
