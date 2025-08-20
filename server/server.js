@@ -21,10 +21,6 @@ mongoose
   .then(() => console.log("MongoDB connected"))
   .catch((err) => console.error("MongoDB connection error:", err));
 
-app.listen(PORT, () => {
-  console.log(`Server running on http:localhost:${PORT}`);
-});
-
 app.post("/register", async (req, res) => {
   const { fullname, login, password, confirmPassword } = req.body;
   if (password !== confirmPassword) {
@@ -44,4 +40,39 @@ app.post("/register", async (req, res) => {
     console.error("Register error:", error);
     res.status(500).send({ message: "Registration failed" });
   }
+});
+
+app.post("/login", async (req, res) => {
+  const { login, password } = req.body;
+  try {
+    const user = await User.findOne({ login });
+    if (!user) {
+      return res.status(400).send({ message: "Login is incorrect!" });
+    }
+
+    const isMatch = await bcrypt.compare(password, user.password);
+    if (!isMatch) {
+      return res.status(400).send({ message: "Password is incorrect!" });
+    }
+
+    const token = jwt.sign(
+      { userId: user._id, fullname: user.fullname },
+      JWT_SECRET,
+      { expiresIn: "1h" }
+    );
+
+    res.json({
+      token,
+      userId: user._id,
+      fullname: user.fullname,
+      message: "Login successful!",
+    });
+  } catch (error) {
+    console.error("Login error: ", error);
+    res.status(500).send({ message: "Server error" });
+  }
+});
+
+app.listen(PORT, () => {
+  console.log(`Server running on http:localhost:${PORT}`);
 });

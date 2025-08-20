@@ -6,6 +6,7 @@ import { toast } from "react-toastify";
 import registerSchema from "../validation/validationSchema";
 import { ValidationError } from "yup";
 import type { FormErrors } from "../types";
+import { HandCoins } from "lucide-react";
 
 export default function RegisterPage() {
     const [fullname, setFullname] = useState('');
@@ -61,8 +62,8 @@ export default function RegisterPage() {
     return (
         <div className='register_wrapper'>
             <div className='register_inputs'>
-                <div className="icon_container">
-                    <span className="icon">$</span>
+                <div className="logo_container">
+                    <span className="logo_button" onClick={() => navigate('/')}><HandCoins className='logo_icon' />Spendora</span>
                 </div>
 
                 <p className='sign_information'>Create an account</p>

@@ -2,7 +2,6 @@ import { useContext } from "react";
 import MainPage from "./MainPage/MainPage";
 import { Routes, Route, useLocation } from "react-router-dom";
 import { AuthContext } from "../content";
-import ProjectApp from "./ProjectApp/ProjectApp";
 import InfoHeader from "./InfoHeader/InfoHeader";
 import InfoFooter from "./InfoFooter/InfoFooter";
 import { AnimatePresence, motion, type Transition } from "framer-motion";
@@ -12,6 +11,7 @@ import FeaturesPage from "./FeaturesPage/FeaturesPage";
 import PricingPage from "./PricingPage/PricingPage";
 import LoginPage from "./LoginPage/LoginPage";
 import RegisterPage from "./RegisterPage/RegisterPage";
+import ProjectApp from "./ProjectApp/ProjectApp";
 export default function Content() {
   const { isAuth } = useContext(AuthContext);
 
@@ -153,6 +153,21 @@ export default function Content() {
             style={{ height: "100%" }}
           >
             <RegisterPage />
+          </motion.div>
+          }
+        />
+
+        <Route
+          path="/app/:userId"
+          element={<motion.div
+            initial="initial"
+            animate="in"
+            exit="out"
+            variants={pageVariants}
+            transition={pageTransition}
+            style={{ height: "100%" }}
+          >
+            <ProjectApp />
           </motion.div>
           }
         />

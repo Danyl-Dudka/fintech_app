@@ -8,7 +8,7 @@ export default function InfoHeader() {
     return (
         <header>
             <div className='logo_div'>
-                <p onClick={() => navigate('/')}><HandCoins className='logo_icon' />FinTech</p>
+                <p onClick={() => navigate('/')}><HandCoins className='logo_icon' />Spendora</p>
             </div>
             <div className="info_block">
                 <p onClick={() => navigate('/pricing')}>Pricing</p>

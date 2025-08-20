@@ -9,7 +9,7 @@ export default function InfoFooter() {
         <div className="info_blocks">
           <div className="first_block">
             <ul>
-              <li className="logo_element"><HandCoins className='logo_icon' />FinTech</li>
+              <li className="logo_element"><HandCoins className='logo_icon' />Spendora</li>
               <li className="logo_description" style={{ width: 200 }}>Optimize your financial routine—quick, simple, effective.</li>
             </ul>
           </div>
@@ -48,7 +48,7 @@ export default function InfoFooter() {
           </div>
         </div>
         <div className='footer_label'>
-          <p>© 2025 FinTech. All rights reserved.</p>
+          <p>© 2025 Spendora. All rights reserved.</p>
         </div>
       </div>
     </footer>

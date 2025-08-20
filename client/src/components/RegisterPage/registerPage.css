@@ -167,3 +167,29 @@
 .error_message {
     color: red
 }
+
+.logo_button {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 1.5rem;
+    font-weight: bold;
+    color: white;
+    background: rgba(255, 255, 255, 0.05);
+    padding: 0.5rem 1rem;
+    border-radius: 12px;
+    cursor: pointer;
+    box-shadow: 0 4px 12px white;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.logo_button:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 18px rgba(74, 134, 231, 0.5);
+}
+
+.logo_icon {
+    width: 28px;
+    height: 28px;
+    color: white;
+}

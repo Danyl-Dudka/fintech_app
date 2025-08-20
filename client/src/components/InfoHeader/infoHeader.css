@@ -28,9 +28,12 @@ header {
 }
 
 .logo_div p {
+    display: flex;
+    align-items: center;
+    justify-content: center;
     color: white;
     font-size: 24px;
-    margin: 0;
+    gap: 0.5rem;
 }
 
 .info_block {
@@ -60,6 +63,7 @@ header {
     background-color: white;
     transition: width 0.4s ease-in-out;
 }
+
 .login_btn {
     width: 7rem;
 }
@@ -78,5 +82,5 @@ header {
 }
 
 .logo_icon {
-    margin-right: 1rem;
+    margin: 0;
 }
