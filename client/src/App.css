@@ -4,6 +4,9 @@
 }
 
 body {
+  margin: 0;
+  padding: 0;
+  height: 100%;
   background: linear-gradient(-45deg, #0d0d0d, #1a1a1a, #000000, #121212);
   background-size: 400% 400%;
   animation: gradientAnimation 20s ease infinite;

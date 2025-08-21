@@ -29,7 +29,8 @@ export default function LoginPage() {
 
                 sessionStorage.setItem("token", data.token);
                 sessionStorage.setItem("userId", data.userId);
-
+                sessionStorage.setItem("fullname", data.fullname);
+                
                 setIsAuth(true);
                 setTimeout(() => {
                     setLogin('');
