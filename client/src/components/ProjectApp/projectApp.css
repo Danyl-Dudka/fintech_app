@@ -1,1 +1,53 @@
+.current_balance_card {
+    margin-top: 1rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 30rem;
+    height: 14rem;
+    background-color: #0f172a;
+    margin-left: 2rem;
+    border-radius: 10px;
+    padding: 1.5rem;
+    box-sizing: border-box;
+    transition: 0.2s;
+}
 
+.balance_title {
+    color: rgba(128, 128, 128, 0.839);
+    font-size: 1.3rem;
+    margin: 0;
+}
+
+.balance_number {
+    display: block;
+    padding-top: 0.5rem;
+    color: white;
+    font-size: 2rem;
+    font-weight: bold;
+}
+
+.wallet_icon {
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #06084f, #a29bfe);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.25);
+    flex-shrink: 0;
+    cursor: pointer;
+    transition: 0.2s, box-shadow 0.2s;
+    color: #fff;
+    font-size: 1.5rem;
+}
+
+.current_balance_card:hover {
+    transform: scale(1.01);
+}
+
+.wallet_icon:hover {
+    transform: scale(1.05);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.35);
+}

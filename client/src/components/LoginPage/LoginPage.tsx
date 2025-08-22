@@ -10,7 +10,7 @@ export default function LoginPage() {
     const [login, setLogin] = useState('');
     const [password, setPassword] = useState('');
     const [formErrors, setFormErrors] = useState<FormErrors>({});
-    const { setIsAuth } = useContext(AuthContext)
+    const { setIsAuth, setBalance } = useContext(AuthContext)
     const navigate = useNavigate();
 
     const handleLogin = async () => {
@@ -30,8 +30,10 @@ export default function LoginPage() {
                 sessionStorage.setItem("token", data.token);
                 sessionStorage.setItem("userId", data.userId);
                 sessionStorage.setItem("fullname", data.fullname);
-                
+
                 setIsAuth(true);
+                setBalance(data.balance);
+
                 setTimeout(() => {
                     setLogin('');
                     setPassword('');

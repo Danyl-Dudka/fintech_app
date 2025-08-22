@@ -3,6 +3,7 @@ import { useEffect, useState, type ReactNode } from "react";
 
 export default function AuthProvider({ children }: { children: ReactNode }) {
     const [isAuth, setIsAuth] = useState(false);
+    const [balance, setBalance] = useState(0.00);
 
     useEffect(() => {
         const token = sessionStorage.getItem('token');
@@ -11,7 +12,7 @@ export default function AuthProvider({ children }: { children: ReactNode }) {
         }
     }, [])
     return (
-        <AuthContext.Provider value={{ isAuth, setIsAuth }}>
+        <AuthContext.Provider value={{ isAuth, setIsAuth, balance, setBalance }}>
             {children}
         </AuthContext.Provider>
     )

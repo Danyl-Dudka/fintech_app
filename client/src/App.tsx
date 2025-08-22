@@ -7,11 +7,12 @@ import { AuthContext } from './content';
 import { useState } from 'react';
 
 function App() {
+  const [balance, setBalance] = useState(0)
   const [isAuth, setIsAuth] = useState<boolean>(() => {
     return !!sessionStorage.getItem('token');
   })
   return (
-    <AuthContext.Provider value={{ isAuth, setIsAuth }}>
+    <AuthContext.Provider value={{ isAuth, setIsAuth, balance, setBalance }}>
       <BrowserRouter>
         <Routes>
           <Route path='/*' element={<Content />} />

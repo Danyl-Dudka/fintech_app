@@ -85,6 +85,7 @@
 }
 
 .lower_part_header {
+    margin-top: -0.5rem;
     display: flex;
     flex-direction: column;
     gap: 0.2rem;

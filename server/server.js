@@ -33,7 +33,12 @@ app.post("/register", async (req, res) => {
     }
 
     const hashedPassword = await bcrypt.hash(password, 10);
-    const newUser = new User({ fullname, login, password: hashedPassword });
+    const newUser = new User({
+      fullname,
+      login,
+      password: hashedPassword,
+      balance: 0.0,
+    });
     await newUser.save();
     res.json({ message: "User registered successfully!" });
   } catch (error) {
@@ -65,11 +70,25 @@ app.post("/login", async (req, res) => {
       token,
       userId: user._id,
       fullname: user.fullname,
+      balance: Number(user.balance.toFixed(2)),
       message: "Login successful!",
     });
   } catch (error) {
     console.error("Login error: ", error);
     res.status(500).send({ message: "Server error" });
+  }
+});
+
+app.get("/user/:id/balance", async (req, res) => {
+  const { id } = req.params;
+  try {
+    const user = await User.findById(id);
+    if (!user) {
+      return res.status(400).send({ message: "User not found!" });
+    }
+    res.json({ balance: user.balance });
+  } catch (error) {
+    return res.status(500).send({ message: "Server error" });
   }
 });
 
