@@ -3,7 +3,7 @@ import { useNavigate, useParams } from "react-router-dom"
 import GreetingHeader from "../GreetingHeader/GreetingHeader";
 import './projectApp.css'
 import { AuthContext } from "../../content";
-import { BanknoteArrowUp, BanknoteArrowDown, Wallet } from "lucide-react";
+import { Wallet } from "lucide-react";
 export default function ProjectApp() {
     const { userId: urlUserId } = useParams();
     const navigate = useNavigate();

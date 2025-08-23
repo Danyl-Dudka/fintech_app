@@ -1,6 +1,6 @@
 import { Button, IconButton, Menu, MenuItem } from '@mui/material';
 import './greetingHeader.css'
-import { Sun } from 'lucide-react';
+import { Sun, BanknoteArrowUp, BanknoteArrowDown } from 'lucide-react';
 import { useContext, useState } from 'react';
 import { AuthContext } from '../../content';
 import { useNavigate } from 'react-router-dom';
@@ -58,7 +58,13 @@ export default function GreetingHeader() {
                 </Menu>
             </div>
             <div className="lower_part_header">
-                <p>Welcome back, {fullname}! <span className='overview_info_subtitle'>This is your financial overview.</span></p>
+                <div className='text_information'>
+                    <p>Welcome back, {fullname}! <span className='overview_info_subtitle'>This is your financial overview.</span></p>
+                </div>
+                <div className='control_balance_buttons'>
+                    <Button className='income_button'><BanknoteArrowUp className='income_icon'/><span className='control_button_text'>Income</span></Button>
+                    <Button className='expense_button'><BanknoteArrowDown className='expense_icon'/><span className='control_button_text'>Expense</span></Button>
+                </div>
             </div>
         </div>
     )

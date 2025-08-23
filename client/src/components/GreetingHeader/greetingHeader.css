@@ -85,9 +85,10 @@
 }
 
 .lower_part_header {
-    margin-top: -0.5rem;
     display: flex;
-    flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
+    margin-top: -0.5rem;
     gap: 0.2rem;
 }
 
@@ -147,4 +148,33 @@
 
 .MuiButton-root.MuiButton-text {
     padding: 0;
+}
+
+.control_balance_buttons {
+    display: flex;
+    justify-content: space-between;
+    width: 23rem;
+}
+
+.income_icon {
+    width: 2.5rem;
+    height: 2.5rem;
+    color: rgb(16, 192, 51);
+}
+
+.expense_icon {
+    width: 2.5rem;
+    height: 2.5rem;
+    color: red;
+}
+
+.control_button_text {
+    margin-left: 1rem;
+    color: white;
+    font-size: 18px;
+    font-weight: 500;
+}
+
+.income_button:active, .expense_button:active {
+    transform: scale(0.98);
 }
