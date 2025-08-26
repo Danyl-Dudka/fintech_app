@@ -175,6 +175,12 @@
     font-weight: 500;
 }
 
-.income_button:active, .expense_button:active {
+.income_button:active,
+.expense_button:active {
     transform: scale(0.98);
+}
+
+.income_button:focus {
+    outline: none;
+    box-shadow: none;
 }
