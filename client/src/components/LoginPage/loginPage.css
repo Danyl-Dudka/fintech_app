@@ -18,6 +18,7 @@
 
 .login_field,
 .password_field {
+    color: black!important;
     width: 100% !important;
     margin: 0.5rem 0;
 }
@@ -74,7 +75,7 @@
 
 .login_field input,
 .password_field input {
-    color: #000;
+    color: #000!important;
 }
 
 .login_button_container {

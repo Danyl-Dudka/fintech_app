@@ -5,6 +5,7 @@ import mongoose from "mongoose";
 import jwt from "jsonwebtoken";
 import bcrypt from "bcrypt";
 import { User } from "./models/User.js";
+import { Transaction } from "./models/Transaction.js";
 
 const app = express();
 const PORT = 3000;
@@ -89,6 +90,81 @@ app.get("/user/:id/balance", async (req, res) => {
     res.json({ balance: user.balance });
   } catch (error) {
     return res.status(500).send({ message: "Server error" });
+  }
+});
+
+app.post("/user/:id/income", async (req, res) => {
+  const { id } = req.params;
+  const { amount, description } = req.body;
+
+  if (!amount) {
+    return res.status(400).send({ message: "Amount is required!" });
+  }
+
+  try {
+    const newTransaction = new Transaction({
+      userId: id,
+      amount,
+      description: description || "No description",
+      date: new Date(),
+      type: "income",
+    });
+
+    const user = await User.findById(id);
+
+    if (!user) {
+      return res.status(400).send({ message: "User not found!" });
+    }
+
+    user.balance = (user.balance || 0) + amount;
+
+    await user.save();
+    await newTransaction.save();
+
+    res.json({
+      message: "New transaction was successfully created!",
+      newBalance: user.balance,
+    });
+  } catch (error) {
+    console.error("Error:", error);
+    res.status(500).send({ message: "Server error!" });
+  }
+});
+
+app.post("/user/:id/expense", async (req, res) => {
+  const { id } = req.params;
+  const { amount, description } = req.body;
+
+  if (!amount) {
+    return res.status(400).send({ message: "Amount is required!" });
+  }
+  try {
+    const newTransaction = new Transaction({
+      userId: id,
+      amount,
+      description: description || "No description",
+      date: new Date(),
+      type: "expense",
+    });
+
+    const user = await User.findById(id);
+
+    if (!user) {
+      return res.status(400).send({ message: "User not found!" });
+    }
+
+    user.balance = (user.balance || 0) - amount;
+
+    await user.save();
+    await newTransaction.save();
+
+    res.json({
+      message: "New transaction was successfully created!",
+      newBalance: user.balance,
+    });
+  } catch (error) {
+    console.error("Error:", error);
+    res.status(500).send({ message: "Server error!" });
   }
 });
 

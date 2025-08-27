@@ -9,97 +9,35 @@ input[type=number] {
     -moz-appearance: textfield;
 }
 
-.balance_textfield {
-    color: white;
-}
-
-.MuiInputBase-input {
-    color: white !important;
-}
-
-.balance_textfield .MuiInputBase-input {
-    color: white;
-}
-
-.income_textfield .MuiInputLabel-root {
-    color: #9ca3af;
-}
-
-.income_textfield .MuiInputLabel-root.Mui-focused {
-    color: #4ade80;
-}
-
-.income_textfield .MuiInput-underline:before {
-    border-bottom: 1px solid rgba(255, 255, 255, 0.3);
-}
-
-.income_textfield .MuiInput-underline:hover:not(.Mui-disabled):before {
-    border-bottom: 1px solid white;
-}
-
-.income_textfield .MuiInput-underline:after {
-    border-bottom: 2px solid #4ade80;
-}
-
-.income_textfield .MuiOutlinedInput-root fieldset {
-    border-color: rgba(255, 255, 255, 0.3);
-}
-
-.income_textfield .MuiOutlinedInput-root:hover fieldset {
-    border-color: white;
-}
-
-.income_textfield .MuiOutlinedInput-root.Mui-focused fieldset {
-    border-color: #4ade80;
-}
-
-.expense_textfield .MuiInputLabel-root {
-    color: #9ca3af;
-}
-
-.expense_textfield .MuiInputLabel-root.Mui-focused {
-    color: #f87171;
-}
-
-.expense_textfield .MuiInput-underline:before {
-    border-bottom: 1px solid rgba(255, 255, 255, 0.3);
-}
-
-.expense_textfield .MuiInput-underline:hover:not(.Mui-disabled):before {
-    border-bottom: 1px solid white;
-}
-
-.expense_textfield .MuiInput-underline:after {
-    border-bottom: 2px solid #f87171;
-}
-
-.expense_textfield .MuiOutlinedInput-root fieldset {
-    border-color: rgba(255, 255, 255, 0.3);
-}
-
-.expense_textfield .MuiOutlinedInput-root:hover fieldset {
-    border-color: white;
-}
-
-.expense_textfield .MuiOutlinedInput-root.Mui-focused fieldset {
-    border-color: #f87171;
-}
-
 .balance_modal_box {
     position: absolute;
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
     width: 600px;
-    height: 300px;
-    border-radius: 12px;
-    background-color: #363e4b9f;
+    min-height: 320px;
+    border-radius: 16px;
+    background: rgba(54, 62, 75, 0.85);
+    backdrop-filter: blur(16px);
     border: 1px solid rgba(255, 255, 255, 0.1);
-    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.5);
+    box-shadow: 0 12px 32px rgba(0, 0, 0, 0.6);
     padding: 2rem;
     color: white;
     display: flex;
     flex-direction: column;
+    animation: fadeInScale 0.25s ease-out;
+}
+
+@keyframes fadeInScale {
+    from {
+        opacity: 0;
+        transform: translate(-50%, -50%) scale(0.9);
+    }
+
+    to {
+        opacity: 1;
+        transform: translate(-50%, -50%) scale(1);
+    }
 }
 
 .balance_modal_wrapper {
@@ -112,8 +50,65 @@ input[type=number] {
 .balance_modal_title {
     font-size: 1.5rem;
     font-weight: 600;
+    text-align: center;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
     margin-bottom: 0.5rem;
-    color: #fff;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    padding-bottom: 0.5rem;
+}
+
+.MuiInputBase-input {
+    color: white !important;
+    font-size: 1rem;
+    font-weight: 400;
+    letter-spacing: 0.3px;
+}
+
+.income_textfield .MuiInputLabel-root {
+    color: #9ca3af;
+    transition: color 0.3s ease;
+}
+
+.income_textfield .MuiInputLabel-root.Mui-focused {
+    color: #4ade80;
+}
+
+.income_textfield .MuiOutlinedInput-root fieldset {
+    border-color: rgba(255, 255, 255, 0.3);
+    transition: all 0.3s ease;
+}
+
+.income_textfield .MuiOutlinedInput-root:hover fieldset {
+    border-color: white;
+}
+
+.income_textfield .MuiOutlinedInput-root.Mui-focused fieldset {
+    border-color: #4ade80;
+    box-shadow: 0 0 8px rgba(74, 222, 128, 0.5);
+}
+
+.expense_textfield .MuiInputLabel-root {
+    color: #9ca3af;
+    transition: color 0.3s ease;
+}
+
+.expense_textfield .MuiInputLabel-root.Mui-focused {
+    color: #f87171;
+}
+
+.expense_textfield .MuiOutlinedInput-root fieldset {
+    border-color: rgba(255, 255, 255, 0.3);
+    transition: all 0.3s ease;
+}
+
+.expense_textfield .MuiOutlinedInput-root:hover fieldset {
+    border-color: white;
+}
+
+.expense_textfield .MuiOutlinedInput-root.Mui-focused fieldset {
+    border-color: #f87171;
+    box-shadow: 0 0 8px rgba(248, 113, 113, 0.5);
 }
 
 .balance_modal_button {
@@ -123,7 +118,66 @@ input[type=number] {
 }
 
 .balance_modal_button button {
-    border-radius: 8px;
-    padding: 0.5rem 1.5rem;
+    border-radius: 10px;
+    padding: 0.6rem 1.8rem;
+    font-weight: 600;
+    letter-spacing: 0.4px;
+    transition: all 0.25s ease;
+}
+
+.balance_modal_button button.income {
+    background: linear-gradient(135deg, #22c55e, #16a34a);
+}
+
+.balance_modal_button button.income:hover {
+    background: linear-gradient(135deg, #16a34a, #15803d);
+    transform: translateY(-2px);
+}
+
+.balance_modal_button button.expense {
+    background: linear-gradient(135deg, #ef4444, #b91c1c);
+}
+
+.balance_modal_button button.expense:hover {
+    background: linear-gradient(135deg, #dc2626, #991b1b);
+    transform: translateY(-2px);
+}
+
+.expense_textfield textarea,
+.income_textfield textarea {
+    resize: none;
+    min-height: 80px;
+}
+
+.income_textfield,
+.expense_textfield {
+    font-size: 20px;
+    max-width: 400px;
+    margin: 0 auto;
+}
+
+.income_textfield .MuiInputAdornment-root {
+    color: #4ade80;
+    font-weight: 600;
+}
+
+.expense_textfield .MuiInputAdornment-root {
+    color: #f87171;
+    font-weight: 600;
+}
+
+.income_label,
+.expense_label {
+    color: #9ca3af;
     font-weight: 500;
+    transition: color 0.3s ease;
+}
+
+.income_textfield input,
+.expense_textfield input {
+    font-size: 28px;
+}
+
+.error_message {
+    color: red;
 }

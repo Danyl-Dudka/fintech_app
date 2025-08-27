@@ -48,7 +48,7 @@
 .confirm_password_field input {
     padding-top: 8px !important;
     padding-bottom: 8px !important;
-    color: #000;
+    color: #000!important;
 }
 
 .fullname_field .MuiOutlinedInput-notchedOutline,
