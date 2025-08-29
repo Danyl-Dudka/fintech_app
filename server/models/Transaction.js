@@ -17,6 +17,10 @@ const transactionSchema = new mongoose.Schema({
     required: true,
     default: Date.now,
   },
+  category: {
+    type: String,
+    required: true,
+  },
   type: {
     type: String,
     enum: ["income", "expense"],

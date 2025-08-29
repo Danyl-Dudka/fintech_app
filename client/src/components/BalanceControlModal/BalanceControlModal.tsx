@@ -6,10 +6,40 @@ import './balanceControlModal.css'
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import { ValidationError } from "yup";
+import { DollarSign, Bitcoin, BriefcaseBusiness, CircleDollarSign, Gift, BanknoteArrowDown, BanknoteArrowUp, PiggyBank, Landmark, Banknote } from "lucide-react";
+import { House, Coins, Fuel, Apple, Wine, HeartPlus, Drama, Plane, GraduationCap } from "lucide-react";
 export default function BalanceControlModal({ open, onClose, modalMode }: BalanceControlModalProps) {
     const [amount, setAmount] = useState<number | ''>('');
     const [description, setDescription] = useState<string>('');
     const [formErrors, setFormErrors] = useState<FormErrors>({});
+    const [selectedCategory, setSelectedCategory] = useState('');
+
+
+    const incomeCategories = [
+        { name: 'Salary', icon: <DollarSign /> },
+        { name: 'Freelance', icon: <Banknote /> },
+        { name: 'Investments', icon: <Landmark /> },
+        { name: 'Business', icon: <BriefcaseBusiness /> },
+        { name: 'Bonus', icon: <CircleDollarSign /> },
+        { name: 'Gift', icon: <Gift /> },
+        { name: 'Refunds', icon: <BanknoteArrowDown /> },
+        { name: 'Crypto / Stocks Gains', icon: <Bitcoin /> },
+        { name: 'Cashback / Rewards', icon: <PiggyBank /> },
+        { name: 'Debt Repayment', icon: <BanknoteArrowUp /> },
+    ];
+
+    const expenseCategories = [
+        { name: 'Rent', icon: <House /> },
+        { name: 'Insurance', icon: <Coins /> },
+        { name: 'Gas', icon: <Fuel /> },
+        { name: 'Food & Groceries', icon: <Apple /> },
+        { name: 'Alcohol', icon: <Wine /> },
+        { name: 'Savings', icon: <PiggyBank /> },
+        { name: 'Health', icon: <HeartPlus /> },
+        { name: 'Entertainment', icon: <Drama /> },
+        { name: 'Travel', icon: <Plane /> },
+        { name: 'Education', icon: <GraduationCap /> },
+    ]
 
     const navigate = useNavigate();
 
@@ -22,13 +52,13 @@ export default function BalanceControlModal({ open, onClose, modalMode }: Balanc
         }
         try {
             await transactionSchema.validate(
-                { amount, description },
+                { amount, description, category: selectedCategory },
                 { abortEarly: false }
             )
             const response = await fetch(`http://localhost:3000/user/${sessionUserId}/income`, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${token}` },
-                body: JSON.stringify({ amount, description })
+                body: JSON.stringify({ amount, description, category: selectedCategory })
             });
 
             const data = await response.json();
@@ -36,11 +66,10 @@ export default function BalanceControlModal({ open, onClose, modalMode }: Balanc
             if (response.ok) {
                 toast.success(data.message || 'New transaction was successfully created!');
                 setFormErrors({});
-                setTimeout(() => {
-                    setAmount('');
-                    setDescription('');
-                    onClose();
-                }, 1500)
+                setAmount('');
+                setDescription('');
+                setSelectedCategory('');
+                onClose();
             } else {
                 toast.error(data.message || 'Transaction failed')
             }
@@ -72,14 +101,14 @@ export default function BalanceControlModal({ open, onClose, modalMode }: Balanc
 
         try {
             await transactionSchema.validate(
-                { amount, description },
+                { amount, description, category: selectedCategory },
                 { abortEarly: false }
             )
 
             const response = await fetch(`http://localhost:3000/user/${sessionUserId}/expense`, {
                 method: "POST",
                 headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${token}` },
-                body: JSON.stringify({ amount, description })
+                body: JSON.stringify({ amount, description, category: selectedCategory })
             });
 
             const data = await response.json();
@@ -87,11 +116,10 @@ export default function BalanceControlModal({ open, onClose, modalMode }: Balanc
             if (response.ok) {
                 toast.success(data.message || 'New transaction was successfully created!');
                 setFormErrors({});
-                setTimeout(() => {
-                    setAmount('');
-                    setDescription('');
-                    onClose();
-                }, 1500)
+                setAmount('');
+                setDescription('');
+                setSelectedCategory('');
+                onClose();
             } else {
                 toast.error(data.message || 'Transaction failed')
             }
@@ -164,6 +192,33 @@ export default function BalanceControlModal({ open, onClose, modalMode }: Balanc
                             onChange={(event) => setDescription(event.target.value)}
                         />
 
+                        {formErrors.category && <p className="error_message">{formErrors.category}</p>}
+                        <div className="categories">
+                            {modalMode === 'income' ?
+                                incomeCategories.map((category) => (
+                                    <Button
+                                        key={category.name}
+                                        startIcon={category.icon}
+                                        variant={selectedCategory === category.name ? 'contained' : 'outlined'}
+                                        color={selectedCategory === category.name ? 'info' : 'primary'}
+                                        onClick={() => setSelectedCategory(category.name)}
+                                    >
+                                        {category.name}
+                                    </Button>
+                                ))
+                                : expenseCategories.map((category) => (
+                                    <Button
+                                        key={category.name}
+                                        startIcon={category.icon}
+                                        variant={selectedCategory === category.name ? 'contained' : 'outlined'}
+                                        color={selectedCategory === category.name ? 'info' : 'primary'}
+                                        onClick={() => setSelectedCategory(category.name)}
+                                    >
+                                        {category.name}
+                                    </Button>
+                                ))
+                            }
+                        </div>
                         <div className="balance_modal_button">
                             <Button
                                 variant='contained'

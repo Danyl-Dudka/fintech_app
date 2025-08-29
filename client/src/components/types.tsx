@@ -8,4 +8,5 @@ export type BalanceControlModalProps = {
     open: boolean,
     onClose: () => void;
     modalMode: ModalMode;
+    refreshData: () => Promise<void>;
 }

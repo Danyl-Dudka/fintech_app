@@ -10,6 +10,7 @@ const registerSchema = yup.object().shape({
 const transactionSchema = yup.object().shape({
     amount: yup.number().transform((value, originalValue) => (originalValue === "" ? undefined : value)).required("Amount is required!").typeError('Amount must be a number!'),
     description: yup.string().max(60, "Description length must not exceed 60 characters"),
+    category: yup.string().required('Please select a category.'),
 })
 
 export default registerSchema;

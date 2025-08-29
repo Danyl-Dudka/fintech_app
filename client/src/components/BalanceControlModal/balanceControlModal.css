@@ -181,3 +181,24 @@ input[type=number] {
 .error_message {
     color: red;
 }
+
+.categories {
+    max-width: 36rem;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+    margin-top: 1rem;
+}
+
+.categories button,
+.categories .MuiChip-root {
+    min-width: 100px;
+    text-transform: none;
+    font-size: 0.9rem;
+}
+
+.categories button:hover,
+.categories .MuiChip-root:hover {
+    transform: scale(1.05);
+    transition: transform 0.2s;
+}

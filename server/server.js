@@ -129,7 +129,7 @@ app.get("/user/:id/current_month_summary", async (req, res) => {
 
 app.post("/user/:id/income", async (req, res) => {
   const { id } = req.params;
-  const { amount, description } = req.body;
+  const { amount, description, category } = req.body;
 
   if (!amount) {
     return res.status(400).send({ message: "Amount is required!" });
@@ -140,6 +140,7 @@ app.post("/user/:id/income", async (req, res) => {
       userId: id,
       amount,
       description: description || "No description",
+      category: category || "No category",
       date: new Date(),
       type: "income",
     });
@@ -167,7 +168,7 @@ app.post("/user/:id/income", async (req, res) => {
 
 app.post("/user/:id/expense", async (req, res) => {
   const { id } = req.params;
-  const { amount, description } = req.body;
+  const { amount, description, category } = req.body;
 
   if (!amount) {
     return res.status(400).send({ message: "Amount is required!" });
@@ -177,6 +178,7 @@ app.post("/user/:id/expense", async (req, res) => {
       userId: id,
       amount,
       description: description || "No description",
+      category: category || "No category",
       date: new Date(),
       type: "expense",
     });
