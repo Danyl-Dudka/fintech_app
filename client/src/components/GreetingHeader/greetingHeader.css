@@ -156,13 +156,13 @@
     width: 23rem;
 }
 
-.income_icon {
+.income_icon_header {
     width: 2.5rem;
     height: 2.5rem;
     color: rgb(16, 192, 51);
 }
 
-.expense_icon {
+.expense_icon_header {
     width: 2.5rem;
     height: 2.5rem;
     color: red;
@@ -175,12 +175,13 @@
     font-weight: 500;
 }
 
-.income_button:active,
-.expense_button:active {
+.income_button_header:active,
+.expense_button_header:active {
     transform: scale(0.98);
 }
 
-.income_button:focus {
+.income_button:focus,
+.espense_button:focus {
     outline: none;
     box-shadow: none;
 }

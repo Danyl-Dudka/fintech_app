@@ -81,8 +81,8 @@ export default function GreetingHeader() {
                         <p>Welcome back, {fullname}! <span className='overview_info_subtitle'>This is your financial overview.</span></p>
                     </div>
                     <div className='control_balance_buttons'>
-                        <Button disableRipple className='income_button' onClick={handleOpenModalIncome}><BanknoteArrowUp className='income_icon' /><span className='control_button_text'>Income</span></Button>
-                        <Button disableRipple className='expense_button' onClick={handleOpenModalExpense}><BanknoteArrowDown className='expense_icon' /><span className='control_button_text'>Expense</span></Button>
+                        <Button disableRipple className='income_button' onClick={handleOpenModalIncome}><BanknoteArrowUp className='income_icon_header' /><span className='control_button_text'>Income</span></Button>
+                        <Button disableRipple className='expense_button' onClick={handleOpenModalExpense}><BanknoteArrowDown className='expense_icon_header' /><span className='control_button_text'>Expense</span></Button>
                     </div>
                 </div>
             </div>

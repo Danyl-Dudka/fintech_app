@@ -93,6 +93,40 @@ app.get("/user/:id/balance", async (req, res) => {
   }
 });
 
+app.get("/user/:id/current_month_summary", async (req, res) => {
+  const { id } = req.params;
+  try {
+    const dateNow = new Date();
+    const startDate = new Date(dateNow.getFullYear(), dateNow.getMonth(), 1);
+    const endDate = new Date(dateNow.getFullYear(), dateNow.getMonth() + 1, 1);
+
+    const summary = await Transaction.aggregate([
+      {
+        $match: {
+          userId: id,
+          date: { $gte: startDate, $lt: endDate },
+        },
+      },
+      {
+        $group: {
+          _id: "$type",
+          total: {
+            $sum: "$amount",
+          },
+        },
+      },
+    ]);
+
+    const incomeSummary = summary.find((s) => s._id === "income")?.total || 0;
+    const expenseSummary = summary.find((s) => s._id === "expense")?.total || 0;
+
+    return res.json({ incomeSummary, expenseSummary });
+  } catch (error) {
+    console.error("Error:", error);
+    res.status(500).send({ message: "Server error!" });
+  }
+});
+
 app.post("/user/:id/income", async (req, res) => {
   const { id } = req.params;
   const { amount, description } = req.body;
