@@ -204,6 +204,46 @@ app.post("/user/:id/expense", async (req, res) => {
   }
 });
 
+app.get("/user/:id/amount_by_category", async (req, res) => {
+  const { id } = req.params;
+  const dateNow = new Date();
+  const startDate = new Date(dateNow.getFullYear(), dateNow.getMonth(), 1);
+  const endDate = new Date(dateNow.getFullYear(), dateNow.getMonth() + 1, 1);
+
+  try {
+    const summaryByCategory = await Transaction.aggregate([
+      {
+        $match: {
+          userId: id,
+          date: { $gte: startDate, $lt: endDate },
+          type: { $in: ["income", "expense"] },
+        },
+      },
+      {
+        $group: {
+          _id: { type: "$type", category: "$category" },
+          total: { $sum: "$amount" },
+        },
+      },
+      {
+        $project: {
+          _id: 0,
+          type: "$_id.type",
+          category: "$_id.category",
+          amount: "$total",
+        },
+      },
+    ]);
+
+    const incomesAmountByCategory = summaryByCategory.filter((s) => s.type === 'income');
+    const expensesAmountByCategory = summaryByCategory.filter((s) => s.type === 'expense');
+
+    res.status(200).json({ incomesAmountByCategory, expensesAmountByCategory });
+  } catch (error) {
+    res.status(500).send({ message: "Server error" });
+  }
+});
+
 app.listen(PORT, () => {
   console.log(`Server running on http:localhost:${PORT}`);
 });

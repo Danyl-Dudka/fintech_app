@@ -8,5 +8,25 @@ export type BalanceControlModalProps = {
     open: boolean,
     onClose: () => void;
     modalMode: ModalMode;
-    refreshData: () => Promise<void>;
+}
+
+export interface CardsBalanceProps {
+    income: number;
+    expense: number;
+    balance: number;
+    setIncome: (value: number) => void;
+    setExpense: (value: number) => void;
+    setBalance: (value: number) => void;
+}
+
+export type CategoryAmount = {
+    category: string;
+    amount: number;
+}
+
+export type DiagramBalanceProps = {
+    incomes: number;
+    expenses: number;
+    incomesByCategory: CategoryAmount[];
+    expensesByCategory: CategoryAmount[];
 }
