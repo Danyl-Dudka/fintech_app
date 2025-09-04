@@ -7,7 +7,7 @@ import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import { ValidationError } from "yup";
 import { DollarSign, Bitcoin, BriefcaseBusiness, CircleDollarSign, Gift, BanknoteArrowDown, BanknoteArrowUp, PiggyBank, Landmark, Banknote } from "lucide-react";
-import { House, Coins, Fuel, Apple, Wine, HeartPlus, Drama, Plane, GraduationCap } from "lucide-react";
+import { House, Coins, Fuel, Apple, Wine, HeartPlus, Drama, Utensils, Coffee } from "lucide-react";
 export default function BalanceControlModal({ open, onClose, modalMode }: BalanceControlModalProps) {
     const [amount, setAmount] = useState<number | ''>('');
     const [description, setDescription] = useState<string>('');
@@ -37,13 +37,13 @@ export default function BalanceControlModal({ open, onClose, modalMode }: Balanc
         { name: 'Savings', icon: <PiggyBank /> },
         { name: 'Health', icon: <HeartPlus /> },
         { name: 'Entertainment', icon: <Drama /> },
-        { name: 'Travel', icon: <Plane /> },
-        { name: 'Education', icon: <GraduationCap /> },
+        { name: 'Cafe & Restaurants', icon: <Utensils /> },
+        { name: 'Coffee', icon: <Coffee /> },
     ]
 
     const navigate = useNavigate();
 
-    const handleSubmitIncome = async () => {
+    const handleSubmit = async () => {
         const token = sessionStorage.getItem('token');
         const sessionUserId = sessionStorage.getItem('userId');
         if (!token || !sessionUserId) {
@@ -55,10 +55,11 @@ export default function BalanceControlModal({ open, onClose, modalMode }: Balanc
                 { amount, description, category: selectedCategory },
                 { abortEarly: false }
             )
-            const response = await fetch(`http://localhost:3000/user/${sessionUserId}/income`, {
+
+            const response = await fetch(`http://localhost:3000/user/${sessionUserId}/money_control`, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${token}` },
-                body: JSON.stringify({ amount, description, category: selectedCategory })
+                body: JSON.stringify({ amount, description, category: selectedCategory, type: modalMode })
             });
 
             const data = await response.json();
@@ -70,6 +71,9 @@ export default function BalanceControlModal({ open, onClose, modalMode }: Balanc
                 setDescription('');
                 setSelectedCategory('');
                 onClose();
+                setTimeout(() => {
+                    window.location.reload();
+                }, 1500)
             } else {
                 toast.error(data.message || 'Transaction failed')
             }
@@ -90,54 +94,6 @@ export default function BalanceControlModal({ open, onClose, modalMode }: Balanc
 
     }
 
-    const handleSubmitExpense = async () => {
-        const token = sessionStorage.getItem('token');
-        const sessionUserId = sessionStorage.getItem('userId');
-
-        if (!token || !sessionUserId) {
-            navigate('/login');
-            return;
-        }
-
-        try {
-            await transactionSchema.validate(
-                { amount, description, category: selectedCategory },
-                { abortEarly: false }
-            )
-
-            const response = await fetch(`http://localhost:3000/user/${sessionUserId}/expense`, {
-                method: "POST",
-                headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${token}` },
-                body: JSON.stringify({ amount, description, category: selectedCategory })
-            });
-
-            const data = await response.json();
-
-            if (response.ok) {
-                toast.success(data.message || 'New transaction was successfully created!');
-                setFormErrors({});
-                setAmount('');
-                setDescription('');
-                setSelectedCategory('');
-                onClose();
-            } else {
-                toast.error(data.message || 'Transaction failed')
-            }
-        } catch (error) {
-            if (error instanceof ValidationError) {
-                const errors: FormErrors = {};
-                error.inner.forEach((err) => {
-                    if (err.path) {
-                        errors[err.path as keyof FormErrors] = err.message;
-                    }
-                })
-                setFormErrors(errors)
-            } else {
-                toast.error('Unexpected error during validation!')
-                console.error('Server error:', error)
-            }
-        }
-    }
     return (
         <>
             <Modal
@@ -222,8 +178,7 @@ export default function BalanceControlModal({ open, onClose, modalMode }: Balanc
                         <div className="balance_modal_button">
                             <Button
                                 variant='contained'
-                                onClick={modalMode === 'income' ? handleSubmitIncome : handleSubmitExpense}
-
+                                onClick={handleSubmit}
                             >
                                 {modalMode === 'income' ? 'Add Income' : 'Add Expense'}
                             </Button>

@@ -127,9 +127,9 @@ app.get("/user/:id/current_month_summary", async (req, res) => {
   }
 });
 
-app.post("/user/:id/income", async (req, res) => {
+app.post("/user/:id/money_control", async (req, res) => {
   const { id } = req.params;
-  const { amount, description, category } = req.body;
+  const { amount, description, category, type } = req.body;
 
   if (!amount) {
     return res.status(400).send({ message: "Amount is required!" });
@@ -142,7 +142,7 @@ app.post("/user/:id/income", async (req, res) => {
       description: description || "No description",
       category: category || "No category",
       date: new Date(),
-      type: "income",
+      type: type,
     });
 
     const user = await User.findById(id);
@@ -151,45 +151,11 @@ app.post("/user/:id/income", async (req, res) => {
       return res.status(400).send({ message: "User not found!" });
     }
 
-    user.balance = (user.balance || 0) + amount;
-
-    await user.save();
-    await newTransaction.save();
-
-    res.json({
-      message: "New transaction was successfully created!",
-      newBalance: user.balance,
-    });
-  } catch (error) {
-    console.error("Error:", error);
-    res.status(500).send({ message: "Server error!" });
-  }
-});
-
-app.post("/user/:id/expense", async (req, res) => {
-  const { id } = req.params;
-  const { amount, description, category } = req.body;
-
-  if (!amount) {
-    return res.status(400).send({ message: "Amount is required!" });
-  }
-  try {
-    const newTransaction = new Transaction({
-      userId: id,
-      amount,
-      description: description || "No description",
-      category: category || "No category",
-      date: new Date(),
-      type: "expense",
-    });
-
-    const user = await User.findById(id);
-
-    if (!user) {
-      return res.status(400).send({ message: "User not found!" });
+    if (type === "income") {
+      user.balance = (user.balance || 0) + amount;
+    } else if (type === "expense") {
+      user.balance = (user.balance || 0) - amount;
     }
-
-    user.balance = (user.balance || 0) - amount;
 
     await user.save();
     await newTransaction.save();
@@ -215,8 +181,8 @@ app.get("/user/:id/amount_by_category", async (req, res) => {
       {
         $match: {
           userId: id,
-          date: { $gte: startDate, $lt: endDate },
           type: { $in: ["income", "expense"] },
+          date: { $gte: startDate, $lt: endDate },
         },
       },
       {
@@ -235,9 +201,9 @@ app.get("/user/:id/amount_by_category", async (req, res) => {
       },
     ]);
 
-    const incomesAmountByCategory = summaryByCategory.filter((s) => s.type === 'income');
+    const incomesAmountByCategory = summaryByCategory.filter((s) => s.type === "income");
     const expensesAmountByCategory = summaryByCategory.filter((s) => s.type === 'expense');
-
+    
     res.status(200).json({ incomesAmountByCategory, expensesAmountByCategory });
   } catch (error) {
     res.status(500).send({ message: "Server error" });

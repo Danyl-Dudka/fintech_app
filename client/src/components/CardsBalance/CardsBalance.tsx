@@ -6,64 +6,59 @@ import type { CardsBalanceProps } from "../types";
 
 export default function CardsBalance({ income, expense, balance, setIncome, setExpense, setBalance }: CardsBalanceProps) {
     const navigate = useNavigate();
-    const fetchBalance = async () => {
-        const token = sessionStorage.getItem('token');
-        const sessionUserId = sessionStorage.getItem('userId');
-        if (!token || !sessionUserId) {
-            navigate('/login')
-            return;
-        }
-        try {
-            const response = await fetch(`http://localhost:3000/user/${sessionUserId}/balance`, {
-                method: 'GET',
-                headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${token}` },
-            });
-
-            const data = await response.json();
-
-            if (response.ok) {
-                setBalance(data.balance);
-            }
-        } catch (error) {
-            console.error('Error fetching data:', error)
-        }
-    };
-
-    const fetchSummary = async () => {
-        const token = sessionStorage.getItem('token');
-        const sessionUserId = sessionStorage.getItem('userId');
-
-        if (!token || !sessionUserId) {
-            navigate('/login');
-            return;
-        }
-
-        try {
-            const response = await fetch(`http://localhost:3000/user/${sessionUserId}/current_month_summary`, {
-                method: 'GET',
-                headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${token}` }
-            });
-
-            const data = await response.json();
-
-            if (response.ok) {
-                setIncome(data.incomeSummary)
-                setExpense(data.expenseSummary);
-            }
-        } catch (error) {
-            console.error('Error fetching expense balance: ', error)
-        }
-    }
-
-    const fetchMoney = () => {
-        fetchBalance();
-        fetchSummary();
-    }
 
     useEffect(() => {
-        fetchMoney()
-        const interval = setInterval(fetchMoney, 5000);
-        return () => clearInterval(interval);
+        const fetchBalance = async () => {
+            const token = sessionStorage.getItem('token');
+            const sessionUserId = sessionStorage.getItem('userId');
+            if (!token || !sessionUserId) {
+                navigate('/login')
+                return;
+            }
+            try {
+                const response = await fetch(`http://localhost:3000/user/${sessionUserId}/balance`, {
+                    method: 'GET',
+                    headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${token}` },
+                });
+
+                const data = await response.json();
+
+                if (response.ok) {
+                    setBalance(data.balance);
+                }
+            } catch (error) {
+                console.error('Error fetching data:', error)
+            }
+        };
+
+        const fetchSummary = async () => {
+            const token = sessionStorage.getItem('token');
+            const sessionUserId = sessionStorage.getItem('userId');
+
+            if (!token || !sessionUserId) {
+                navigate('/login');
+                return;
+            }
+
+            try {
+                const response = await fetch(`http://localhost:3000/user/${sessionUserId}/current_month_summary`, {
+                    method: 'GET',
+                    headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${token}` }
+                });
+
+                const data = await response.json();
+
+                if (response.ok) {
+                    setIncome(data.incomeSummary)
+                    setExpense(data.expenseSummary);
+                }
+            } catch (error) {
+                console.error('Error fetching expense balance: ', error)
+            }
+        }
+
+        fetchBalance();
+        fetchSummary();
     }, [])
 
     return (

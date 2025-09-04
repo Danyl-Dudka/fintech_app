@@ -9,7 +9,7 @@
 
 .chart_container {
     flex: 1;
-    max-width: 25rem;
+    max-width: 30rem;
     min-width: 0;
     height: 350px;
     display: flex;
@@ -60,4 +60,11 @@
 .pie {
     width: 100%;
     outline: none;
+}
+
+.recharts-text {
+    font-size: 14px;
+    font-weight: 500;
+    fill: #ffffff; 
+    pointer-events: none;
 }
