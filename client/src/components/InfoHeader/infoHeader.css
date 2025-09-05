@@ -11,6 +11,7 @@ header {
     top: 0;
     z-index: 1000;
     box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
+    flex-wrap: wrap;
 }
 
 .logo_div {
@@ -76,9 +77,10 @@ header {
     display: flex;
     justify-content: flex-end;
     align-items: center;
-    width: 200px;
+    min-width: 120px;
     color: white;
     font-size: 28px;
+    flex-shrink: 1;
 }
 
 .logo_icon {

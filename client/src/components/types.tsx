@@ -30,3 +30,7 @@ export type DiagramBalanceProps = {
     incomesByCategory: CategoryAmount[];
     expensesByCategory: CategoryAmount[];
 }
+
+export interface TransactionPageProps {
+    type: 'all' | 'income' | 'expense';
+}

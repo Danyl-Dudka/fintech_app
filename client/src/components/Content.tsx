@@ -12,6 +12,7 @@ import PricingPage from "./PricingPage/PricingPage";
 import LoginPage from "./LoginPage/LoginPage";
 import RegisterPage from "./RegisterPage/RegisterPage";
 import ProjectApp from "./ProjectApp/ProjectApp";
+import TransactionsPage from "./TransactionsHistory/TransactionsPage";
 export default function Content() {
   const { isAuth } = useContext(AuthContext);
 
@@ -171,6 +172,52 @@ export default function Content() {
           </motion.div>
           }
         />
+
+        <Route
+          path="/app/:userId/all_transactions"
+          element={<motion.div
+            initial="initial"
+            animate="in"
+            exit="out"
+            variants={pageVariants}
+            transition={pageTransition}
+            style={{ height: "100%" }}
+          >
+            <TransactionsPage type='all' />
+          </motion.div>
+          }
+        />
+
+        <Route
+          path="/app/:userId/incomes_transactions"
+          element={<motion.div
+            initial="initial"
+            animate="in"
+            exit="out"
+            variants={pageVariants}
+            transition={pageTransition}
+            style={{ height: "100%" }}
+          >
+            <TransactionsPage type="income" />
+          </motion.div>
+          }
+        />
+
+        <Route
+          path="/app/:userId/expenses_transactions"
+          element={<motion.div
+            initial="initial"
+            animate="in"
+            exit="out"
+            variants={pageVariants}
+            transition={pageTransition}
+            style={{ height: "100%" }}
+          >
+            <TransactionsPage type="expense" />
+          </motion.div>
+          }
+        />
+
       </Routes>
     </AnimatePresence>
   )
