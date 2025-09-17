@@ -9,8 +9,7 @@
 
 .chart_container {
     flex: 1;
-    max-width: 30rem;
-    min-width: 0;
+    min-width: 28rem;
     height: 350px;
     display: flex;
     justify-content: center;
@@ -64,7 +63,7 @@
 }
 
 .recharts-text {
-    font-size: 14px;
+    font-size: 18px;
     font-weight: 500;
     fill: #ffffff; 
     pointer-events: none;

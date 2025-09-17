@@ -6,7 +6,7 @@ import './balanceControlModal.css'
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import { ValidationError } from "yup";
-import { DollarSign, Bitcoin, BriefcaseBusiness, CircleDollarSign, Gift, BanknoteArrowDown, BanknoteArrowUp, PiggyBank, Landmark, Banknote } from "lucide-react";
+import { DollarSign, Bitcoin, BriefcaseBusiness, CircleDollarSign, Gift, BanknoteArrowDown, BanknoteArrowUp, PiggyBank, Landmark, Banknote, Files, Cable, GraduationCap } from "lucide-react";
 import { House, Coins, Fuel, Apple, Wine, HeartPlus, Drama, Utensils, Coffee } from "lucide-react";
 export default function BalanceControlModal({ open, onClose, modalMode }: BalanceControlModalProps) {
     const [amount, setAmount] = useState<number | ''>('');
@@ -23,8 +23,8 @@ export default function BalanceControlModal({ open, onClose, modalMode }: Balanc
         { name: 'Bonus', icon: <CircleDollarSign /> },
         { name: 'Gift', icon: <Gift /> },
         { name: 'Refunds', icon: <BanknoteArrowDown /> },
-        { name: 'Crypto / Stocks Gains', icon: <Bitcoin /> },
-        { name: 'Cashback / Rewards', icon: <PiggyBank /> },
+        { name: 'Crypto', icon: <Bitcoin /> },
+        { name: 'Cashback', icon: <PiggyBank /> },
         { name: 'Debt Repayment', icon: <BanknoteArrowUp /> },
     ];
 
@@ -32,13 +32,16 @@ export default function BalanceControlModal({ open, onClose, modalMode }: Balanc
         { name: 'Rent', icon: <House /> },
         { name: 'Insurance', icon: <Coins /> },
         { name: 'Gas', icon: <Fuel /> },
-        { name: 'Food & Groceries', icon: <Apple /> },
+        { name: 'Groceries', icon: <Apple /> },
         { name: 'Alcohol', icon: <Wine /> },
         { name: 'Savings', icon: <PiggyBank /> },
         { name: 'Health', icon: <HeartPlus /> },
         { name: 'Entertainment', icon: <Drama /> },
-        { name: 'Cafe & Restaurants', icon: <Utensils /> },
+        { name: 'Restaurants', icon: <Utensils /> },
         { name: 'Coffee', icon: <Coffee /> },
+        { name: 'Documents', icon: <Files /> },
+        { name: 'Electrionics', icon: <Cable /> },
+        { name: 'Education', icon: <GraduationCap /> }
     ]
 
     const navigate = useNavigate();

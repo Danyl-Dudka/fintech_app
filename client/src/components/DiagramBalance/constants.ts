@@ -11,6 +11,8 @@ export const INCOME_CATEGORY_COLORS = [
     "#F4511E",
     "#FDD835",
     "#6D4C41",
+    '#4A90E2',
+
 ];
 
 export const EXPENSE_CATEGORY_COLORS = [
@@ -24,5 +26,5 @@ export const EXPENSE_CATEGORY_COLORS = [
     "#F06292",
     "#FF9800",
     "#6D4C41",
+    '#5C6BC0'
 ];
-
