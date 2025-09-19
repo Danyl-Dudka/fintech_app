@@ -36,7 +36,7 @@ export default function DiagramBalance({ incomes, expenses, incomesByCategory, e
                 ) : (
                     <ResponsiveContainer width='100%' height={350}>
                         <PieChart >
-                            <Pie className='pie' onClick={summaryAmountNavigate} data={totalData} dataKey='amount' nameKey="type" cx='50%' cy='50%' outerRadius={140} label={({ name, value }) => `${name}: ${value}`} >
+                            <Pie className='pie' onClick={summaryAmountNavigate} data={totalData} dataKey='amount' nameKey="type" cx='50%' cy='50%' outerRadius={140} label={({ name, value }) => `${name}: $${value?.toFixed(2)}`} >
                                 {totalData.map((transaction) => (
                                     <Cell key={transaction.type} fill={transaction.color} />
                                 ))}
@@ -49,7 +49,7 @@ export default function DiagramBalance({ incomes, expenses, incomesByCategory, e
                 {incomesByCategory.length > 0 ? (
                     <ResponsiveContainer width='100%' height={350}>
                         <PieChart >
-                            <Pie className='pie' onClick={incomesAmountNavigate} data={incomesByCategory} dataKey='amount' nameKey="category" cx='50%' cy='50%' outerRadius={140} label={({ name, value }) => `${name}: ${value}`} >
+                            <Pie className='pie' onClick={incomesAmountNavigate} data={incomesByCategory} dataKey='amount' nameKey="category" cx='50%' cy='50%' outerRadius={140} label={({ name, value }) => `${name}: $${value?.toFixed(2)}`} >
                                 {incomesByCategory.map((transaction, index) => (
                                     <Cell key={transaction.category} fill={INCOME_CATEGORY_COLORS[index % INCOME_CATEGORY_COLORS.length]} />
                                 ))}
@@ -65,7 +65,7 @@ export default function DiagramBalance({ incomes, expenses, incomesByCategory, e
                 {expensesByCategory.length > 0 ? (
                     <ResponsiveContainer width='100%' height={350}>
                         <PieChart >
-                            <Pie className='pie' onClick={expensesAmountNavigate} data={expensesByCategory} dataKey='amount' nameKey="category" cx='50%' cy='50%' outerRadius={140} label={({ name, value }) => `${name}: ${value}`} >
+                            <Pie className='pie' onClick={expensesAmountNavigate} data={expensesByCategory} dataKey='amount' nameKey="category" cx='50%' cy='50%' outerRadius={140} label={({ name, value }) => `${name}: $${value?.toFixed(2)}`} >
                                 {expensesByCategory.map((transaction, index) => (
                                     <Cell key={transaction.category} fill={EXPENSE_CATEGORY_COLORS[index % EXPENSE_CATEGORY_COLORS.length]} />
                                 ))}

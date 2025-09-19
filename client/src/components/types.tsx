@@ -34,3 +34,13 @@ export type DiagramBalanceProps = {
 export interface TransactionPageProps {
     type: 'all' | 'income' | 'expense';
 }
+
+export interface Transactions {
+    _id: string;
+    userId: string;
+    amount: number;
+    description: string;
+    category: string;
+    type: "income" | "expense";
+    date: string;
+}

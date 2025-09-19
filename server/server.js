@@ -117,8 +117,10 @@ app.get("/user/:id/current_month_summary", async (req, res) => {
       },
     ]);
 
-    const incomeSummary = summary.find((s) => s._id === "income")?.total || 0;
-    const expenseSummary = summary.find((s) => s._id === "expense")?.total || 0;
+    const incomeSummary =
+      Number(summary.find((s) => s._id === "income")?.total.toFixed(2)) || 0;
+    const expenseSummary =
+      Number(summary.find((s) => s._id === "expense")?.total.toFixed(2)) || 0;
 
     return res.json({ incomeSummary, expenseSummary });
   } catch (error) {
@@ -201,12 +203,32 @@ app.get("/user/:id/amount_by_category", async (req, res) => {
       },
     ]);
 
-    const incomesAmountByCategory = summaryByCategory.filter((s) => s.type === "income");
-    const expensesAmountByCategory = summaryByCategory.filter((s) => s.type === 'expense');
-    
+    const incomesAmountByCategory = summaryByCategory.filter(
+      (s) => s.type === "income"
+    );
+    const expensesAmountByCategory = summaryByCategory.filter(
+      (s) => s.type === "expense"
+    );
+
     res.status(200).json({ incomesAmountByCategory, expensesAmountByCategory });
   } catch (error) {
     res.status(500).send({ message: "Server error" });
+  }
+});
+
+app.get("/user/:id/transactions", async (req, res) => {
+  const { id } = req.params;
+  const { type } = req.query;
+  try {
+    const filter = { userId: id };
+    if (type === "income" || type === "expense") {
+      filter.type = type;
+    }
+
+    const transactions = await Transaction.find(filter).sort({ date: -1 });
+    res.status(200).json(transactions);
+  } catch (error) {
+    res.status(500).send({ message: "Server error!" });
   }
 });
 
