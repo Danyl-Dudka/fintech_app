@@ -5,6 +5,7 @@ import { useEffect, useState } from "react";
 import CardsBalance from "../CardsBalance/CardsBalance";
 import DiagramBalance from "../DiagramBalance/DiagramBalance";
 import type { CategoryAmount } from "../types";
+import AIBalance from "../AIBalance/AiBalance";
 export default function ProjectApp() {
     const { userId: urlUserId } = useParams();
     const navigate = useNavigate();
@@ -16,6 +17,8 @@ export default function ProjectApp() {
 
     const [expensesByCategory, setExpensesByCategory] = useState<CategoryAmount[]>([]);
     const [incomesByCategory, setIncomesByCategory] = useState<CategoryAmount[]>([]);
+
+    const userId = sessionStorage.getItem('userId');
 
     useEffect(() => {
         const token = sessionStorage.getItem('token');
@@ -69,6 +72,7 @@ export default function ProjectApp() {
                 setBalance={setBalance}
             />
             <DiagramBalance incomes={income} expenses={expense} incomesByCategory={incomesByCategory} expensesByCategory={expensesByCategory} />
+            <AIBalance userId={userId ?? ''} />
         </div>
     )
 }

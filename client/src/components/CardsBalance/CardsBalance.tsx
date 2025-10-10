@@ -89,5 +89,6 @@ export default function CardsBalance({ income, expense, balance, setIncome, setE
                     <ArrowDownLeft className="arrow_down_icon" />
                 </div>
             </div>
-        </div>)
+        </div>
+    )
 }
