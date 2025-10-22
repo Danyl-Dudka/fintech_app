@@ -28,6 +28,37 @@ export default function DiagramBalance({ incomes, expenses, incomesByCategory, e
         { type: "Expense", amount: expenses, color: "#FF4C4C" },
     ].filter(item => item.amount > 0);
 
+    const renderCustomLegend = (props: any) => {
+        const { payload } = props;
+        if (!payload || payload.length === 0) {
+            return null;
+        }
+
+        const sortedPayload = [...payload].sort((a: any, b: any) => {
+            const amountA = Number(a.payload.amount ?? 0);
+            const amountB = Number(b.payload.amount ?? 0);
+
+            return amountB - amountA;
+        });
+
+        return (
+            <ul className='legend_ul'>
+                {sortedPayload.map((entry: any, index: number) => {
+                    const name = entry.value;
+                    const amount = Number(entry.payload.amount ?? 0);
+                    const color = entry.color;
+
+                    return (
+                        <li key={`legend-${index}`} className='legend_li'>
+                            <span className='legend_color_span' style={{ backgroundColor: color }} />
+                            <span className='legend_name_span'>{name}</span>
+                            <span className='legend_amount_span'>${amount.toFixed(2)}</span>
+                        </li>
+                    )
+                })}
+            </ul>
+        )
+    }
     return (
         <div className="charts_wrapper">
             <h3 className='diagram_title'>
@@ -40,11 +71,12 @@ export default function DiagramBalance({ incomes, expenses, incomesByCategory, e
                     ) : (
                         <ResponsiveContainer>
                             <PieChart >
-                                <Pie animationDuration={800} className='pie' onClick={summaryAmountNavigate} data={totalData} dataKey='amount' nameKey="type" cx='50%' cy='50%' outerRadius={150} labelLine={{ strokeWidth: 4 }} label={({ name, value }) => `${name}: $${value?.toFixed(2)}`} >
+                                <Pie animationDuration={800} className='pie' onClick={summaryAmountNavigate} data={totalData} dataKey='amount' nameKey="type" cx='50%' cy='50%' outerRadius={150} labelLine={false} label={false} >
                                     {totalData.map((transaction) => (
                                         <Cell key={transaction.type} fill={transaction.color} />
                                     ))}
                                 </Pie>
+                                <Legend verticalAlign="bottom" height={36} content={renderCustomLegend} />
                             </PieChart>
                         </ResponsiveContainer>)}
                 </div>
@@ -55,12 +87,12 @@ export default function DiagramBalance({ incomes, expenses, incomesByCategory, e
                     {incomesByCategory.length > 0 ? (
                         <ResponsiveContainer>
                             <PieChart >
-                                <Pie animationDuration={800} className='pie' onClick={incomesAmountNavigate} data={incomesByCategory} dataKey='amount' nameKey="category" cx='50%' cy='50%' outerRadius={150} labelLine={{ strokeWidth: 4 }} label={({ name, value }) => `${name}: $${value?.toFixed(2)}`}  >
+                                <Pie animationDuration={800} className='pie' onClick={incomesAmountNavigate} data={incomesByCategory} dataKey='amount' nameKey="category" cx='50%' cy='50%' outerRadius={150} labelLine={false} label={false}  >
                                     {incomesByCategory.map((transaction, index) => (
                                         <Cell key={transaction.category} fill={INCOME_CATEGORY_COLORS[index % INCOME_CATEGORY_COLORS.length]} />
                                     ))}
                                 </Pie>
-                                <Legend verticalAlign="bottom" height={36} />
+                                <Legend verticalAlign="bottom" height={36} content={renderCustomLegend} />
                             </PieChart>
                         </ResponsiveContainer>
                     ) : (
@@ -74,12 +106,12 @@ export default function DiagramBalance({ incomes, expenses, incomesByCategory, e
                     {expensesByCategory.length > 0 ? (
                         <ResponsiveContainer>
                             <PieChart >
-                                <Pie animationDuration={800} className='pie' onClick={expensesAmountNavigate} data={expensesByCategory} dataKey='amount' nameKey="category" cx='50%' cy='50%' labelLine={{ strokeWidth: 4 }} outerRadius={150} label={({ name, value }) => `${name}: $${value?.toFixed(2)}`} >
+                                <Pie animationDuration={800} className='pie' onClick={expensesAmountNavigate} data={expensesByCategory} dataKey='amount' nameKey="category" cx='50%' cy='50%' labelLine={false} outerRadius={150} label={false} >
                                     {expensesByCategory.map((transaction, index) => (
                                         <Cell key={transaction.category} fill={EXPENSE_CATEGORY_COLORS[index % EXPENSE_CATEGORY_COLORS.length]} />
                                     ))}
                                 </Pie>
-                                <Legend verticalAlign="bottom" height={36} />
+                                <Legend verticalAlign="bottom" height={36} content={renderCustomLegend} />
                             </PieChart>
                         </ResponsiveContainer>
                     ) : (
