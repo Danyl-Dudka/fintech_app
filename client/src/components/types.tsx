@@ -17,6 +17,7 @@ export interface CardsBalanceProps {
     setIncome: (value: number) => void;
     setExpense: (value: number) => void;
     setBalance: (value: number) => void;
+    setSelectedDiagram: (value: 'summary' | 'income' | 'expense') => void;
 }
 
 export type CategoryAmount = {
@@ -29,6 +30,7 @@ export type DiagramBalanceProps = {
     expenses: number;
     incomesByCategory: CategoryAmount[];
     expensesByCategory: CategoryAmount[];
+    selectedDiagram: 'summary' | 'income' | 'expense';
 }
 
 export interface TransactionPageProps {

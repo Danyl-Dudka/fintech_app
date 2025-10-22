@@ -4,7 +4,7 @@ import { useNavigate } from "react-router-dom";
 import './cardsBalance.css'
 import type { CardsBalanceProps } from "../types";
 
-export default function CardsBalance({ income, expense, balance, setIncome, setExpense, setBalance }: CardsBalanceProps) {
+export default function CardsBalance({ income, expense, balance, setIncome, setExpense, setBalance, setSelectedDiagram }: CardsBalanceProps) {
     const navigate = useNavigate();
 
     useEffect(() => {
@@ -63,7 +63,7 @@ export default function CardsBalance({ income, expense, balance, setIncome, setE
 
     return (
         <div className="financial_cards">
-            <div className="current_balance_card">
+            <div className="current_balance_card" onClick={() => setSelectedDiagram('summary')}>
                 <div className="money_information">
                     <p className="balance_title">Current balance: <span className="balance_number">CAD ${balance?.toFixed(2) ?? 0.00}</span></p>
                 </div>
@@ -72,7 +72,7 @@ export default function CardsBalance({ income, expense, balance, setIncome, setE
                 </div>
             </div>
 
-            <div className="income_balance_card">
+            <div className="income_balance_card" onClick={() => setSelectedDiagram('income')}>
                 <div className="money_information">
                     <p className="balance_title">Income:<span className="balance_number">CAD ${income?.toFixed(2) ?? 0.00}</span></p>
                 </div>
@@ -81,7 +81,7 @@ export default function CardsBalance({ income, expense, balance, setIncome, setE
                 </div>
             </div>
 
-            <div className="expense_balance_card">
+            <div className="expense_balance_card" onClick={() => setSelectedDiagram('expense')}>
                 <div className="money_information">
                     <p className="balance_title">Expense: <span className="balance_number">CAD ${expense?.toFixed(2) ?? 0.00}</span></p>
                 </div>

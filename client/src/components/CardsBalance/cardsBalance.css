@@ -5,13 +5,14 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
-    width: 30rem;
+    width: 32rem;
     height: 14rem;
     background-color: #0f172a;
     border-radius: 10px;
     padding: 1.5rem;
     box-sizing: border-box;
     transition: 0.2s;
+    cursor: pointer;
 }
 
 .current_balance_card:hover,
@@ -21,8 +22,7 @@
 }
 
 .financial_cards {
-    display: flex;
-    justify-content: space-around;
+    margin-left: 4rem;
 }
 
 .balance_title {
@@ -80,4 +80,8 @@
     font-weight: bold;
     width: 36px;
     height: 36px;
+}
+
+.expense_balance_card {
+    margin-bottom: 1rem;
 }

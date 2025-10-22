@@ -1,11 +1,11 @@
-import { Cell, Pie, PieChart, ResponsiveContainer } from 'recharts';
+import { Cell, Legend, Pie, PieChart, ResponsiveContainer } from 'recharts';
 import type { DiagramBalanceProps } from '../types';
 import './diagramBalance.css';
 import { useNavigate } from 'react-router-dom';
 import { INCOME_CATEGORY_COLORS, EXPENSE_CATEGORY_COLORS } from './constants.ts';
 import { useContext } from 'react';
 import { AuthContext } from '../../content.ts';
-export default function DiagramBalance({ incomes, expenses, incomesByCategory, expensesByCategory }: DiagramBalanceProps) {
+export default function DiagramBalance({ incomes, expenses, incomesByCategory, expensesByCategory, selectedDiagram }: DiagramBalanceProps) {
 
     const { userId } = useContext(AuthContext);
 
@@ -30,52 +30,63 @@ export default function DiagramBalance({ incomes, expenses, incomesByCategory, e
 
     return (
         <div className="charts_wrapper">
-            <div className="chart_container summary">
-                {incomes === 0 && expenses === 0 ? (
-                    <div className="no_data">No income or expenses recorded for this month</div>
-                ) : (
-                    <ResponsiveContainer width='100%' height={350}>
-                        <PieChart >
-                            <Pie className='pie' onClick={summaryAmountNavigate} data={totalData} dataKey='amount' nameKey="type" cx='50%' cy='50%' outerRadius={140} label={({ name, value }) => `${name}: $${value?.toFixed(2)}`} >
-                                {totalData.map((transaction) => (
-                                    <Cell key={transaction.type} fill={transaction.color} />
-                                ))}
-                            </Pie>
-                        </PieChart>
-                    </ResponsiveContainer>)}
-            </div>
+            <h3 className='diagram_title'>
+                {selectedDiagram === "summary" ? 'Your Monthly Financial Snapshot' : selectedDiagram === 'income' ? 'Where Your Money Comes From' : 'Where Your Money Goes'}
+            </h3>
+            {selectedDiagram === 'summary' && (
+                <div className="chart_container summary">
+                    {incomes === 0 && expenses === 0 ? (
+                        <div className="no_data">No income or expenses recorded for this month</div>
+                    ) : (
+                        <ResponsiveContainer>
+                            <PieChart >
+                                <Pie animationDuration={800} className='pie' onClick={summaryAmountNavigate} data={totalData} dataKey='amount' nameKey="type" cx='50%' cy='50%' outerRadius={150} labelLine={{ strokeWidth: 4 }} label={({ name, value }) => `${name}: $${value?.toFixed(2)}`} >
+                                    {totalData.map((transaction) => (
+                                        <Cell key={transaction.type} fill={transaction.color} />
+                                    ))}
+                                </Pie>
+                            </PieChart>
+                        </ResponsiveContainer>)}
+                </div>
+            )}
 
-            <div className="chart_container income">
-                {incomesByCategory.length > 0 ? (
-                    <ResponsiveContainer width='100%' height={350}>
-                        <PieChart >
-                            <Pie className='pie' onClick={incomesAmountNavigate} data={incomesByCategory} dataKey='amount' nameKey="category" cx='50%' cy='50%' outerRadius={140} label={({ name, value }) => `${name}: $${value?.toFixed(2)}`} >
-                                {incomesByCategory.map((transaction, index) => (
-                                    <Cell key={transaction.category} fill={INCOME_CATEGORY_COLORS[index % INCOME_CATEGORY_COLORS.length]} />
-                                ))}
-                            </Pie>
-                        </PieChart>
-                    </ResponsiveContainer>
-                ) : (
-                    <div className="no_data">No income recorded this month</div>
-                )}
-            </div>
+            {selectedDiagram === 'income' && (
+                <div className="chart_container income">
+                    {incomesByCategory.length > 0 ? (
+                        <ResponsiveContainer>
+                            <PieChart >
+                                <Pie animationDuration={800} className='pie' onClick={incomesAmountNavigate} data={incomesByCategory} dataKey='amount' nameKey="category" cx='50%' cy='50%' outerRadius={150} labelLine={{ strokeWidth: 4 }} label={({ name, value }) => `${name}: $${value?.toFixed(2)}`}  >
+                                    {incomesByCategory.map((transaction, index) => (
+                                        <Cell key={transaction.category} fill={INCOME_CATEGORY_COLORS[index % INCOME_CATEGORY_COLORS.length]} />
+                                    ))}
+                                </Pie>
+                                <Legend verticalAlign="bottom" height={36} />
+                            </PieChart>
+                        </ResponsiveContainer>
+                    ) : (
+                        <div className="no_data">No income recorded this month</div>
+                    )}
+                </div>
+            )}
 
-            <div className="chart_container expense">
-                {expensesByCategory.length > 0 ? (
-                    <ResponsiveContainer width='100%' height={350}>
-                        <PieChart >
-                            <Pie className='pie' onClick={expensesAmountNavigate} data={expensesByCategory} dataKey='amount' nameKey="category" cx='50%' cy='50%' outerRadius={140} label={({ name, value }) => `${name}: $${value?.toFixed(2)}`} >
-                                {expensesByCategory.map((transaction, index) => (
-                                    <Cell key={transaction.category} fill={EXPENSE_CATEGORY_COLORS[index % EXPENSE_CATEGORY_COLORS.length]} />
-                                ))}
-                            </Pie>
-                        </PieChart>
-                    </ResponsiveContainer>
-                ) : (
-                    <div className="no_data">No expenses recorded this month</div>
-                )}
-            </div>
+            {selectedDiagram === 'expense' && (
+                <div className="chart_container expense">
+                    {expensesByCategory.length > 0 ? (
+                        <ResponsiveContainer>
+                            <PieChart >
+                                <Pie animationDuration={800} className='pie' onClick={expensesAmountNavigate} data={expensesByCategory} dataKey='amount' nameKey="category" cx='50%' cy='50%' labelLine={{ strokeWidth: 4 }} outerRadius={150} label={({ name, value }) => `${name}: $${value?.toFixed(2)}`} >
+                                    {expensesByCategory.map((transaction, index) => (
+                                        <Cell key={transaction.category} fill={EXPENSE_CATEGORY_COLORS[index % EXPENSE_CATEGORY_COLORS.length]} />
+                                    ))}
+                                </Pie>
+                                <Legend verticalAlign="bottom" height={36} />
+                            </PieChart>
+                        </ResponsiveContainer>
+                    ) : (
+                        <div className="no_data">No expenses recorded this month</div>
+                    )}
+                </div>
+            )}
 
         </div>
     )
