@@ -17,7 +17,7 @@
 
 .no_data {
     width: 100%;
-    max-width: 100%;
+    max-width: 60%;
     min-height: 150px;
     border: 1px dashed #ccc;
     border-radius: 12px;
@@ -25,14 +25,17 @@
     justify-content: center;
     align-items: center;
     color: #aaa;
-    font-size: 1rem;
+    font-size: 1.6rem;
     font-weight: 500;
     text-align: center;
     padding: 1rem;
     line-height: 1.4;
     word-break: break-word;
     overflow-wrap: break-word;
-    background-color: #fafafa;
+
+    opacity: 0;
+    transform: translateY(10px);
+    animation: fadeInUp 0.6s ease-in-out forwards;
 }
 
 .recharts-wrapper,
@@ -115,4 +118,16 @@
     min-width: 60px;
     text-align: right;
     margin-left: 30px;
+}
+
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
 }
