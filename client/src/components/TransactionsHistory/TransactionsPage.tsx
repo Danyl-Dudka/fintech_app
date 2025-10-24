@@ -3,9 +3,17 @@ import HistoryPageHeader from "../HistoryPageHeader/HistoryPageHeader";
 import type { TransactionPageProps, Transactions } from "../types";
 import './transactionsPage.css';
 import { useNavigate } from "react-router-dom";
+import { Button } from "@mui/material";
 export default function TransactionsHistory({ type }: TransactionPageProps) {
   const [transactions, setTransactions] = useState<Transactions[]>([]);
   const [error, setError] = useState<string | null>(null);
+  const [visibleCount, setVisibleCount] = useState(10);
+
+  const visibleTransaction = transactions.slice(0, visibleCount);
+
+  const showMoreTransactions = () => {
+    setVisibleCount(prev => prev + 10)
+  };
 
   const navigate = useNavigate();
 
@@ -53,7 +61,7 @@ export default function TransactionsHistory({ type }: TransactionPageProps) {
         {error && <p className="error_transactions">{error}</p>}
         {transactions.length === 0 && <p className="no_transactions">No transactions found...</p>}
         <ul className="transactions_list">
-          {transactions.map(t => (
+          {visibleTransaction.map(t => (
             <li key={t._id} className="transaction_item">
               <span>{new Date(t.date).toLocaleString()}</span>
               <span>{t.category}</span>
@@ -62,6 +70,10 @@ export default function TransactionsHistory({ type }: TransactionPageProps) {
             </li>
           ))}
         </ul>
+        {visibleCount < transactions.length && (
+          <Button variant="contained" className="show_more_btn" onClick={showMoreTransactions}>SHOW MORE</Button>
+        )
+        }
       </div>
     </>
   )

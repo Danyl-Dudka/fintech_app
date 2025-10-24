@@ -1,7 +1,10 @@
 .transaction_history_wrapper {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
     width: 90%;
     max-width: 900px;
-    margin: 20px auto;
+    margin: 30px auto;
     background-color: #f9f9f9d2;
     padding: 25px;
     border-radius: 12px;
@@ -35,6 +38,8 @@
     list-style: none;
     padding: 0;
     margin: 0;
+    overflow-y: auto;
+    max-height: 610px;
 }
 
 .transaction_item {
@@ -74,4 +79,22 @@
 .transaction_item .expense {
     color: #dc3545;
     font-weight: 500;
+}
+
+.show_more_btn {
+    display: block;
+    width: 200px;
+    font-size: 20px!important;
+    letter-spacing: 0.2em!important;
+    margin: 20px auto!important;
+    padding: 0.7rem 2rem;
+    font-size: 1rem;
+    font-weight: 600;
+    color: #333;
+    background-color: #f5f5f5;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    text-align: center;
 }

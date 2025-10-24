@@ -43,7 +43,7 @@ export default function HistoryPageHeader() {
                         <IconButton className="theme_button">
                             <Sun fontSize="inherit" color='white' />
                         </IconButton>
-                        <p className='accounting_info'>Current account: <span className='accounting_option'>Trading</span></p>
+                        <p className='accounting_info'>Current account: <span className='accounting_option'>Finance</span></p>
                         <div className='user_info'>
                             <Button className="user_button" onClick={handleClick}>
                                 <span className='user_avatar'>{initials}</span>

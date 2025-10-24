@@ -181,7 +181,6 @@ export default function Content() {
             exit="out"
             variants={pageVariants}
             transition={pageTransition}
-            style={{ height: "100%" }}
           >
             <TransactionsPage type='all' />
           </motion.div>
@@ -196,7 +195,6 @@ export default function Content() {
             exit="out"
             variants={pageVariants}
             transition={pageTransition}
-            style={{ height: "100%" }}
           >
             <TransactionsPage type="income" />
           </motion.div>
@@ -211,7 +209,6 @@ export default function Content() {
             exit="out"
             variants={pageVariants}
             transition={pageTransition}
-            style={{ height: "100%" }}
           >
             <TransactionsPage type="expense" />
           </motion.div>

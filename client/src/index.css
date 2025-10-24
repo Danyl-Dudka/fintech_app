@@ -1,4 +1,3 @@
 html, body {
-  overscroll-behavior-y: none; /* отключает "bounce" вверх/вниз */
-  height: 100%;
+  overscroll-behavior-y: none;
 }
