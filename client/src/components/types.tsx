@@ -4,10 +4,16 @@ export type FormErrors = {
 
 export type ModalMode = 'income' | 'expense';
 
+
 export type BalanceControlModalProps = {
     open: boolean,
     onClose: () => void;
     modalMode: ModalMode;
+}
+
+export type GoalModalProps = {
+    open: boolean,
+    onClose: () => void;
 }
 
 export interface CardsBalanceProps {
@@ -44,5 +50,12 @@ export interface Transactions {
     description: string;
     category: string;
     type: "income" | "expense";
+    date: string;
+}
+
+export interface Goal {
+    _id: string;
+    title: string;
+    amount: number;
     date: string;
 }

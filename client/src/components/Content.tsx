@@ -13,6 +13,7 @@ import LoginPage from "./LoginPage/LoginPage";
 import RegisterPage from "./RegisterPage/RegisterPage";
 import ProjectApp from "./ProjectApp/ProjectApp";
 import TransactionsPage from "./TransactionsHistory/TransactionsPage";
+import SavingsPage from "./SavingsPage/SavingsPage";
 export default function Content() {
   const { isAuth } = useContext(AuthContext);
 
@@ -211,6 +212,20 @@ export default function Content() {
             transition={pageTransition}
           >
             <TransactionsPage type="expense" />
+          </motion.div>
+          }
+        />
+
+        <Route
+          path="/app/:userId/savings"
+          element={<motion.div
+            initial="initial"
+            animate="in"
+            exit="out"
+            variants={pageVariants}
+            transition={pageTransition}
+          >
+            <SavingsPage />
           </motion.div>
           }
         />

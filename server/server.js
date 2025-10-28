@@ -6,7 +6,7 @@ import jwt from "jsonwebtoken";
 import bcrypt from "bcrypt";
 import { User } from "./models/User.js";
 import { Transaction } from "./models/Transaction.js";
-import OpenAI from "openai";
+import { Savings } from "./models/SavingsGoal.js";
 
 const app = express();
 const PORT = 3000;
@@ -15,10 +15,6 @@ app.use(express.json());
 app.use(cors());
 
 const MONGO_URI = `mongodb+srv://${process.env.DB_USER}:${process.env.DB_PASSWORD}@fintech.froeigt.mongodb.net/?retryWrites=true&w=majority&appName=FinTech`;
-
-const openai = new OpenAI({
-  apiKey: process.env.OPENAI_API_KEY,
-});
 
 mongoose
   .connect(MONGO_URI, {
@@ -174,6 +170,51 @@ app.post("/user/:id/money_control", async (req, res) => {
   } catch (error) {
     console.error("Error:", error);
     res.status(500).send({ message: "Server error!" });
+  }
+});
+
+app.post("/user/:id/create_goal", async (req, res) => {
+  const { id } = req.params;
+  const { goalAmount, goalTitle } = req.body;
+
+  if (!goalAmount || !goalTitle) {
+    return res
+      .status(400)
+      .send({ message: "Amount and goal title is required!" });
+  }
+
+  try {
+    const savingsGoal = new Savings({
+      userId: id,
+      amount: goalAmount,
+      title: goalTitle,
+      date: new Date(),
+    });
+
+    const user = await User.findById(id);
+
+    if (!user) {
+      return res.status(400).send({ message: "User not found!" });
+    }
+
+    await savingsGoal.save();
+
+    res.json({ message: "Savings goal was successfully created!" });
+  } catch (error) {
+    console.error("Error: ", error);
+    res.status(500).send({ message: "Server error!" });
+  }
+});
+
+app.get("/user/:id/goals", async (req, res) => {
+  const { id } = req.params;
+
+  try {
+    const goals = await Savings.find({userId: id}).sort({ date: -1 });
+    res.json({ goals });
+  } catch (error) {
+    console.error('Error fetching savings goals: ', error);
+    res.status(500).send({ message: 'Server error!'})
   }
 });
 

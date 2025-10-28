@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import HistoryPageHeader from "../HistoryPageHeader/HistoryPageHeader";
+import HistoryPageHeader from "./HistoryPageHeader/HistoryPageHeader";
 import type { TransactionPageProps, Transactions } from "../types";
 import './transactionsPage.css';
 import { useNavigate } from "react-router-dom";
@@ -52,6 +52,7 @@ export default function TransactionsHistory({ type }: TransactionPageProps) {
     }
     fetchTransactions();
   }, [type, navigate])
+  
 
   return (
     <>

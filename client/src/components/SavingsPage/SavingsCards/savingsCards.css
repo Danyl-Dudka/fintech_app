@@ -1,0 +1,117 @@
+.savings_cards_wrapper {
+    width: 100%;
+    padding: 2rem 3rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background: #fafafa;
+    min-height: 70vh;
+    box-sizing: border-box;
+}
+
+.savings_title_page {
+    font-family: "Bebas Neue", sans-serif;
+    font-size: 2.5rem;
+    color: whitesmoke;
+    margin-left: 2rem;
+    margin-bottom: 2rem;
+    letter-spacing: 0.05em;
+}
+
+.no_goals {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.no_goals_text {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 80%;
+    min-height: 150px;
+    color: #aaa;
+    font-size: 1.6rem;
+    font-weight: 500;
+    text-align: center;
+    padding: 1rem;
+    line-height: 1.4;
+    word-break: break-word;
+    overflow-wrap: break-word;
+
+    opacity: 0;
+    transform: translateY(10px);
+    animation: fadeInUp 0.6s ease-in-out forwards;
+}
+
+.goals_flex_container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 5rem;
+    width: 100%;
+}
+
+.goal_card {
+    background-color: #fff;
+    width: 24rem;
+    height: 13rem;
+    border-radius: 14px;
+    padding: 1.5rem;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    transition: all 0.3s ease;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    box-sizing: border-box;
+}
+
+.goal_card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.15);
+}
+
+.goal_header {
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+    margin-top: -1.6rem;
+}
+
+.goal_icon {
+    font-size: 2rem;
+    color: black;
+}
+
+.goal_name {
+    padding-top: 0.6rem;
+    font-size: 1.8rem;
+    font-weight: 600;
+    color: #222;
+}
+
+.goal_amount {
+    margin-top: -0.4rem;
+    font-size: 1.6rem;
+    font-weight: 500;
+    color: #007a33;
+}
+
+.goal_date {
+    margin-top: -0.2rem;
+    font-size: 0.9rem;
+    color: #777;
+}
+
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}

@@ -1,22 +1,17 @@
 import { Button, IconButton, Menu, MenuItem } from '@mui/material';
-import './greetingHeader.css'
-import { Sun, BanknoteArrowUp, BanknoteArrowDown, PiggyBank } from 'lucide-react';
+import './historyPageHeader.css'
+import { Sun, CornerDownLeft, PiggyBank } from 'lucide-react';
 import { useContext, useState } from 'react';
-import { AuthContext } from '../../content';
+import { AuthContext } from '../../../content';
 import { useNavigate } from 'react-router-dom';
-import BalanceControlModal from '../BalanceControlModal/BalanceControlModal';
-import type { ModalMode } from '../types';
-export default function GreetingHeader() {
+export default function HistoryPageHeader() {
     const { setIsAuth } = useContext(AuthContext)
     const navigate = useNavigate();
     const fullname = sessionStorage.getItem('fullname');
+    const userId = sessionStorage.getItem('userId');
     const initials = fullname?.split(' ').map(name => name[0]?.toUpperCase()).join('');
 
     const [anchorEl, setAnchorEl] = useState(null);
-    const [isModalOpen, setIsModalOpen] = useState(false);
-    const [modalMode, setModalMode] = useState<ModalMode>('income');
-
-    const { userId } = useContext(AuthContext);
 
     const handleLogout = () => {
         sessionStorage.removeItem('token');
@@ -25,22 +20,12 @@ export default function GreetingHeader() {
         navigate('/login')
     }
 
+    const handleMainPageNavigate = () => {
+        navigate(`/app/${userId}`)
+    }
+
     const handleClick = (event: any) => {
         setAnchorEl(event.currentTarget)
-    }
-
-    const handleOpenModalIncome = () => {
-        setIsModalOpen(true);
-        setModalMode('income');
-    }
-
-    const handleOpenModalExpense = () => {
-        setIsModalOpen(true);
-        setModalMode('expense');
-    }
-
-    const handleCloseModal = () => {
-        setIsModalOpen(false)
     }
 
     const handleClose = () => {
@@ -56,7 +41,7 @@ export default function GreetingHeader() {
             <div className="header_wrapper">
                 <div className="upper_part_header">
                     <div className='left_section'>
-                        <p className='title_upper'>Finance Overview</p>
+                        <p className='title_upper'>Transaction History</p>
                     </div>
                     <div className='right_section'>
                         <IconButton className="theme_button">
@@ -88,19 +73,13 @@ export default function GreetingHeader() {
                 </div>
                 <div className="lower_part_header">
                     <div className='text_information'>
-                        <p>Welcome back, {fullname}! <span className='overview_info_subtitle'>This is your financial overview.</span></p>
+                        <p>Here’s your transaction history, {fullname}! <span className='overview_info_subtitle'>Review all your recent transaction below.</span></p>
                     </div>
                     <div className='control_balance_buttons'>
-                        <Button disableRipple className='income_button' onClick={handleOpenModalIncome}><BanknoteArrowUp className='income_icon_header' /><span className='control_button_text'>Income</span></Button>
-                        <Button disableRipple className='expense_button' onClick={handleOpenModalExpense}><BanknoteArrowDown className='expense_icon_header' /><span className='control_button_text'>Expense</span></Button>
+                        <Button disableRipple className='move_back_button' onClick={handleMainPageNavigate}><CornerDownLeft className='return_icon_header' /><span className='control_button_text'>Return to Dashboard</span></Button>
                     </div>
                 </div>
             </div>
-            <BalanceControlModal
-                open={isModalOpen}
-                onClose={handleCloseModal}
-                modalMode={modalMode}
-            />
         </>
     )
 }

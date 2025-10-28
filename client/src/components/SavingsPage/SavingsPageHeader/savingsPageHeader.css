@@ -155,42 +155,18 @@
     width: 23rem;
 }
 
-.income_icon_header {
+.return_icon_header {
     width: 2.5rem;
     height: 2.5rem;
-    color: rgb(16, 192, 51);
-}
-
-.expense_icon_header {
-    width: 2.5rem;
-    height: 2.5rem;
-    color: red;
 }
 
 .control_button_text {
     margin-left: 1rem;
     color: white;
-    font-size: 18px;
+    font-size: 24px;
     font-weight: 500;
 }
 
-.income_button_header:active,
-.expense_button_header:active {
+.move_back_button:active {
     transform: scale(0.98);
-}
-
-.income_button:focus,
-.espense_button:focus {
-    outline: none;
-    box-shadow: none;
-}
-
-.savings_button {
-    color: white !important;
-}
-
-.savings_title {
-    margin-right: 0.6rem;
-    font-size: 16px;
-    
 }

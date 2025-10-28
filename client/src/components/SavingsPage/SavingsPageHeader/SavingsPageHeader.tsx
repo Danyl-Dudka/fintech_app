@@ -1,10 +1,10 @@
 import { Button, IconButton, Menu, MenuItem } from '@mui/material';
-import './historyPageHeader.css'
+import './savingsPageHeader.css'
 import { Sun, CornerDownLeft } from 'lucide-react';
 import { useContext, useState } from 'react';
-import { AuthContext } from '../../content';
+import { AuthContext } from '../../../content';
 import { useNavigate } from 'react-router-dom';
-export default function HistoryPageHeader() {
+export default function SavingsPageHeader() {
     const { setIsAuth } = useContext(AuthContext)
     const navigate = useNavigate();
     const fullname = sessionStorage.getItem('fullname');
@@ -37,7 +37,7 @@ export default function HistoryPageHeader() {
             <div className="header_wrapper">
                 <div className="upper_part_header">
                     <div className='left_section'>
-                        <p className='title_upper'>Transaction History</p>
+                        <p className='title_upper'>Savings</p>
                     </div>
                     <div className='right_section'>
                         <IconButton className="theme_button">
@@ -65,7 +65,7 @@ export default function HistoryPageHeader() {
                 </div>
                 <div className="lower_part_header">
                     <div className='text_information'>
-                        <p>Here’s your transaction history, {fullname}! <span className='overview_info_subtitle'>Review all your recent transaction below.</span></p>
+                        <p>Here’s your savings overview, {fullname}! <span className='overview_info_subtitle'>Track your total savings progress and recent deposits below.</span></p>
                     </div>
                     <div className='control_balance_buttons'>
                         <Button disableRipple className='move_back_button' onClick={handleMainPageNavigate}><CornerDownLeft className='return_icon_header' /><span className='control_button_text'>Return to Dashboard</span></Button>

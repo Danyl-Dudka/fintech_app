@@ -1,0 +1,56 @@
+.goal_modal_title {
+    font-size: 1.6rem;
+    font-weight: 600;
+    text-align: center;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    margin-bottom: 0.5rem;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    padding-bottom: 0.5rem;
+}
+
+.create_goal_wrapper {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+    flex: 1;
+}
+
+.cad_sign {
+    color: gray;
+}
+
+.goal_amount_input {
+    width: 14rem;
+    color: white;
+}
+
+.goal_amount_input,
+.goal_name_input .MuiInputLabel-root {
+    color: #9ca3af;
+}
+
+.goal_amount_input,
+.goal_name_input .MuiOutlinedInput-root fieldset {
+    border-color: rgba(255, 255, 255, 0.3);
+}
+
+.goal_name_input {
+    width: 18rem;
+    color: white;
+}
+
+.add_goal_button_wrapper {
+    margin-top: 2rem;
+    display: flex;
+    justify-content: flex-end;
+}
+
+.add_goal_button {
+    width: 10rem;
+    font-size: 1rem !important;
+    border-radius: 10px !important;
+    padding: 0.6rem 1.8rem !important;
+    font-weight: 600 !important;
+    letter-spacing: 0.12em !important;
+}
