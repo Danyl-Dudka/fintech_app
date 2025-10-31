@@ -173,51 +173,6 @@ app.post("/user/:id/money_control", async (req, res) => {
   }
 });
 
-app.post("/user/:id/create_goal", async (req, res) => {
-  const { id } = req.params;
-  const { goalAmount, goalTitle } = req.body;
-
-  if (!goalAmount || !goalTitle) {
-    return res
-      .status(400)
-      .send({ message: "Amount and goal title is required!" });
-  }
-
-  try {
-    const savingsGoal = new Savings({
-      userId: id,
-      amount: goalAmount,
-      title: goalTitle,
-      date: new Date(),
-    });
-
-    const user = await User.findById(id);
-
-    if (!user) {
-      return res.status(400).send({ message: "User not found!" });
-    }
-
-    await savingsGoal.save();
-
-    res.json({ message: "Savings goal was successfully created!" });
-  } catch (error) {
-    console.error("Error: ", error);
-    res.status(500).send({ message: "Server error!" });
-  }
-});
-
-app.get("/user/:id/goals", async (req, res) => {
-  const { id } = req.params;
-
-  try {
-    const goals = await Savings.find({userId: id}).sort({ date: -1 });
-    res.json({ goals });
-  } catch (error) {
-    console.error('Error fetching savings goals: ', error);
-    res.status(500).send({ message: 'Server error!'})
-  }
-});
-
 app.get("/user/:id/amount_by_category", async (req, res) => {
   const { id } = req.params;
   const dateNow = new Date();
@@ -275,6 +230,88 @@ app.get("/user/:id/transactions", async (req, res) => {
     res.status(200).json(transactions);
   } catch (error) {
     res.status(500).send({ message: "Server error!" });
+  }
+});
+
+app.post("/user/:id/create_goal", async (req, res) => {
+  const { id } = req.params;
+  const { goalAmount, goalTitle } = req.body;
+
+  if (!goalAmount || !goalTitle) {
+    return res
+      .status(400)
+      .send({ message: "Amount and goal title is required!" });
+  }
+
+  try {
+    const savingsGoal = new Savings({
+      userId: id,
+      currentAmount: 0.0,
+      amount: goalAmount,
+      title: goalTitle,
+      date: new Date(),
+    });
+
+    const user = await User.findById(id);
+
+    if (!user) {
+      return res.status(400).send({ message: "User not found!" });
+    }
+
+    await savingsGoal.save();
+
+    res.json({ message: "Savings goal was successfully created!" });
+  } catch (error) {
+    console.error("Error: ", error);
+    res.status(500).send({ message: "Server error!" });
+  }
+});
+
+app.get("/user/:id/goals", async (req, res) => {
+  const { id } = req.params;
+
+  try {
+    const goals = await Savings.find({ userId: id }).sort({ date: -1 });
+    res.json({ goals });
+  } catch (error) {
+    console.error("Error fetching savings goals: ", error);
+    res.status(500).send({ message: "Server error!" });
+  }
+});
+
+app.delete("/user/:id/delete_goal/:goalId", async (req, res) => {
+  const { id, goalId } = req.params;
+  try {
+    const user = await User.findById(id);
+
+    if (!user) {
+      return res.status(404).json({ message: "User not found!" });
+    }
+
+    const goal = await Savings.findOne({ _id: goalId, userId: id });
+
+    if (!goal) {
+      return res.status(404).json({ message: "Goal not found!" });
+    }
+
+    if (goal.currentAmount > 0.0) {
+      user.balance += goal.currentAmount;
+      await user.save();
+    }
+
+    await goal.deleteOne();
+
+    res.json({
+      message:
+        goal.currentAmount > 0
+          ? `Goal deleted $${goal.currentAmount.toFixed(
+              2
+            )} was added back to your balance!`
+          : `Goal succesfully deleted!`,
+    });
+  } catch (error) {
+    console.error("Error deleting goal: ", error);
+    res.status(500).json({ message: "Server error!" });
   }
 });
 

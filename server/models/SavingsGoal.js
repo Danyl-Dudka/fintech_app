@@ -5,6 +5,11 @@ const savingsGoalSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
+  currentAmount: {
+    type: Number,
+    default: 0.0,
+    required: true,
+  },
   amount: {
     type: Number,
     required: true,

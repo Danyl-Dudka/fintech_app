@@ -56,6 +56,7 @@ export interface Transactions {
 export interface Goal {
     _id: string;
     title: string;
+    currentAmount: number;
     amount: number;
     date: string;
 }
