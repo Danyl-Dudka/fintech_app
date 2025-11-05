@@ -31,7 +31,6 @@ export default function SavingsCards() {
                 if (response.ok) {
                     setGoals(data.goals || [])
                 }
-                console.log(goals)
             } catch (error) {
                 console.error('Error fetching savings goals: ', error)
             }
@@ -41,6 +40,51 @@ export default function SavingsCards() {
     }, []);
 
     const handleTopUp = async (goalId: string) => {
+        const token = sessionStorage.getItem('token');
+        const userId = sessionStorage.getItem('userId');
+
+        if (!token || !userId) {
+            navigate('/login');
+            return;
+        }
+
+        try {
+            const response = await fetch(`http://localhost:3000/user/${userId}/${goalId}/top_up`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ topUpAmount: Number(topUpAmount) })
+            })
+
+            const data = await response.json();
+
+            if (response.ok) {
+                if (data.goalCompleted) {
+                    toast.success(`🎯 ${data.message}`)
+                } else {
+                    toast.info(data.message)
+                }
+
+                if (data.returnedAmount && data.returnedAmount > 0) {
+                    toast.info(
+                        `💸 You only needed $${(Number(topUpAmount) - data.returnedAmount).toFixed(2)} to complete this goal. 
+          $${data.returnedAmount.toFixed(2)} was returned to your balance.`
+                    );
+                }
+
+                setGoals((prevGoals) => prevGoals.map((goal) => goal._id === goalId ? { ...goal, currentAmount: data.updatedGoal.currentAmount } : goal))
+                setTopUpAmount("");
+                setIsActiveTopUp(null);
+
+            } else {
+                if (data.goalCompleted) {
+                    toast.warn(data.message)
+                } else {
+                    toast.error(data.message || "Top up error!")
+                }
+            }
+        } catch (error) {
+            console.error('Top up error: ', error)
+        }
     }
 
     const handleCancel = () => {
@@ -101,7 +145,19 @@ export default function SavingsCards() {
                             <p className="goal_amount">${goal.currentAmount.toFixed(2)}/${goal.amount.toFixed(2)}</p>
                             {isActiveTopUp === goal._id ? (
                                 <div className="top_up_inline fade_in">
-                                    <input type="number" min="1" placeholder="Enter amount" value={topUpAmount} onChange={(e) => setTopUpAmount(e.target.value)} className="top_up_input" autoFocus />
+                                    <input type="number" min="1" max={goal.amount - goal.currentAmount} placeholder={`Enter amount`} value={topUpAmount}
+                                        onChange={(e) => {
+                                            const value = Number(e.target.value);
+                                            const remaining = goal.amount - goal.currentAmount;
+                                            if (value > remaining) {
+                                                toast.warn(` You can only add up to $${remaining.toFixed(2)}!`);
+                                                setTopUpAmount(String(remaining))
+                                            } else {
+                                                setTopUpAmount(e.target.value)
+                                            }
+                                        }
+                                        }
+                                        className="top_up_input" autoFocus />
                                     <IconButton onClick={() => handleTopUp(goal._id)} className="top_up_btn">
                                         <Check className="top_up_check_icon" />
                                     </IconButton>
@@ -110,7 +166,7 @@ export default function SavingsCards() {
                                     </IconButton>
                                 </div>
                             ) : (
-                                <Button className={`show_top_up_btn ${animateButton ? "fade_in_up" : ""}`} onClick={() => setIsActiveTopUp(goal._id)}>💵 Top Up</Button>
+                                <Button className={`show_top_up_btn ${animateButton ? "fade_in_up" : ""}`} disabled={goal.currentAmount >= goal.amount} onClick={() => setIsActiveTopUp(goal._id)}>💵 Top Up</Button>
                             )}
                             <div className="footer_goal_cards">
                                 <p className="goal_date">Created: {new Date(goal.date).toLocaleDateString()}</p>

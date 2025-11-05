@@ -165,7 +165,8 @@
 }
 
 .top_up_input {
-    width: 90px;
+    width: 110px;
+    height: 20px;
     padding: 0.4rem 0.6rem;
     font-size: 0.9rem;
     border: 1px solid #ccc;
@@ -203,6 +204,12 @@
 
 .fade_out_down {
     animation: fadeOutDown 0.3s ease-in-out forwards;
+}
+
+.show_top_up_btn:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+    background-color: #ccc !important;
 }
 
 @keyframes fadeOutDown {

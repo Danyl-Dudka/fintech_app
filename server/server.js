@@ -315,6 +315,72 @@ app.delete("/user/:id/delete_goal/:goalId", async (req, res) => {
   }
 });
 
+app.post("/user/:id/:goalId/top_up", async (req, res) => {
+  const { id, goalId } = req.params;
+
+  const { topUpAmount } = req.body;
+
+  if (!topUpAmount || topUpAmount <= 0) {
+    res.status(400).json({ message: "Top-up amount must be greater than 0!" });
+  }
+
+  try {
+    const user = await User.findById(id);
+
+    if (!user) {
+      return res.status(400).json({ message: "User not found!" });
+    }
+
+    const goal = await Savings.findOne({ _id: goalId, userId: id });
+
+    if (!goal) {
+      return res.status(400).json({ message: "Goal not found!" });
+    }
+
+    if (goal.currentAmount >= goal.amount) {
+      return res.status(400).json({
+        message: `Goal ${goal.title} is already completed!`,
+        goalCompleted: true,
+      });
+    }
+
+    const remainingToGoal = goal.amount - goal.currentAmount;
+    const actualTopUp = Math.min(topUpAmount, remainingToGoal);
+    const returnedAmount = topUpAmount > remainingToGoal ? topUpAmount - remainingToGoal : 0;
+
+    if (user.balance < actualTopUp) {
+      return res.status(400).json({ message: "Insufficient balance!" });
+    }
+
+    user.balance -= actualTopUp;
+    if(returnedAmount > 0) {
+      user.balance += returnedAmount
+    }
+    goal.currentAmount += actualTopUp;
+    let goalCompleted = false;
+
+    if (goal.currentAmount >= goal.amount) {
+      goal.currentAmount = goal.amount;
+      goalCompleted = true;
+    }
+
+    await user.save();
+    await goal.save();
+
+    res.json({
+      message: goalCompleted
+        ? `🎉 Goal ${goal.title} has been fully funded!`
+        : `Added $${topUpAmount.toFixed(2)} to ${goal.title}.`,
+      newBalance: user.balanced,
+      updatedGoal: goal,
+      goalCompleted,
+    });
+  } catch (error) {
+    console.error("Top up error: ", error);
+    res.status(500).json({ message: "Server error!" });
+  }
+});
+
 app.listen(PORT, () => {
   console.log(`Server running on http:localhost:${PORT}`);
 });
