@@ -321,41 +321,45 @@ app.post("/user/:id/:goalId/top_up", async (req, res) => {
   const { topUpAmount } = req.body;
 
   if (!topUpAmount || topUpAmount <= 0) {
-    res.status(400).json({ message: "Top-up amount must be greater than 0!" });
+    return res.status(400).json({ message: "Top-up amount must be greater than 0!" });
   }
 
   try {
+    const goal = await Savings.findOne({_id: goalId, userId: id});
+
+    if (!goal) {
+      return res.status(404).json({ message: "Goal not found!" });
+    }
+
     const user = await User.findById(id);
 
     if (!user) {
-      return res.status(400).json({ message: "User not found!" });
-    }
-
-    const goal = await Savings.findOne({ _id: goalId, userId: id });
-
-    if (!goal) {
-      return res.status(400).json({ message: "Goal not found!" });
+      return res.status(404).json({ message: "User not found!" });
     }
 
     if (goal.currentAmount >= goal.amount) {
-      return res.status(400).json({
-        message: `Goal ${goal.title} is already completed!`,
-        goalCompleted: true,
-      });
+      return res
+        .status(400)
+        .json({
+          message: `Goal ${goal.title} is already completed!`,
+          goalCompleted: true,
+        });
     }
 
     const remainingToGoal = goal.amount - goal.currentAmount;
     const actualTopUp = Math.min(topUpAmount, remainingToGoal);
-    const returnedAmount = topUpAmount > remainingToGoal ? topUpAmount - remainingToGoal : 0;
+    const returnedAmount =
+      topUpAmount > remainingToGoal ? topUpAmount - remainingToGoal : 0;
 
     if (user.balance < actualTopUp) {
       return res.status(400).json({ message: "Insufficient balance!" });
     }
 
     user.balance -= actualTopUp;
-    if(returnedAmount > 0) {
-      user.balance += returnedAmount
+    if (returnedAmount > 0) {
+      user.balance += returnedAmount;
     }
+
     goal.currentAmount += actualTopUp;
     let goalCompleted = false;
 
@@ -369,9 +373,9 @@ app.post("/user/:id/:goalId/top_up", async (req, res) => {
 
     res.json({
       message: goalCompleted
-        ? `🎉 Goal ${goal.title} has been fully funded!`
-        : `Added $${topUpAmount.toFixed(2)} to ${goal.title}.`,
-      newBalance: user.balanced,
+        ? `Goal ${goal.title} has been fully funded!`
+        : `Added $${actualTopUp.toFixed(2)} to ${goal.title}.`,
+      newBalance: user.balance,
       updatedGoal: goal,
       goalCompleted,
     });

@@ -37,7 +37,7 @@ export default function SavingsCards() {
         };
 
         fetchSavingsGoals();
-    }, []);
+    }, [navigate]);
 
     const handleTopUp = async (goalId: string) => {
         const token = sessionStorage.getItem('token');
@@ -52,28 +52,25 @@ export default function SavingsCards() {
             const response = await fetch(`http://localhost:3000/user/${userId}/${goalId}/top_up`, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ topUpAmount: Number(topUpAmount) })
+                body: JSON.stringify({ topUpAmount: Number(topUpAmount) }),
             })
 
             const data = await response.json();
 
             if (response.ok) {
-                if (data.goalCompleted) {
-                    toast.success(`🎯 ${data.message}`)
-                } else {
-                    toast.info(data.message)
-                }
+                data.goalCompleted ? toast.success(`🎯 ${data.message}`) : toast.info(data.message);
 
                 if (data.returnedAmount && data.returnedAmount > 0) {
                     toast.info(
-                        `💸 You only needed $${(Number(topUpAmount) - data.returnedAmount).toFixed(2)} to complete this goal. 
-          $${data.returnedAmount.toFixed(2)} was returned to your balance.`
-                    );
+                        `💸 You only needed $${(Number(topUpAmount) - data.returnedAmount).toFixed(2)} to complete this goal.
+                        $${data.returnedAmount.toFixed(2)} was returned to your balance.
+                        `)
                 }
 
-                setGoals((prevGoals) => prevGoals.map((goal) => goal._id === goalId ? { ...goal, currentAmount: data.updatedGoal.currentAmount } : goal))
-                setTopUpAmount("");
+                setGoals((prevGoals) => prevGoals.map((goal) => goal._id === goalId ? { ...goal, currentAmount: data.updatedGoal.currentAmount } : goal));
+                setTopUpAmount('')
                 setIsActiveTopUp(null);
+
 
             } else {
                 if (data.goalCompleted) {
@@ -83,7 +80,8 @@ export default function SavingsCards() {
                 }
             }
         } catch (error) {
-            console.error('Top up error: ', error)
+            console.error('Top up error: ', error);
+            toast.error("Server error during top up!")
         }
     }
 
@@ -117,7 +115,7 @@ export default function SavingsCards() {
                     card.classList.add("fade-out");
                     setTimeout(() => {
                         setGoals((prevGoals) => prevGoals.filter((goal) => goal._id !== goalId))
-                    }, 1500)
+                    }, 1000)
                 }
                 toast.success(data.message);
             }
@@ -143,6 +141,14 @@ export default function SavingsCards() {
                                 <h3 className="goal_name">{goal.title}</h3>
                             </div>
                             <p className="goal_amount">${goal.currentAmount.toFixed(2)}/${goal.amount.toFixed(2)}</p>
+                            <div className="goal_progress_wrapper">
+                                <div className="goal_progress_bar">
+                                    <div className="goal_progress_fill" style={{ width: `${Math.min((goal.currentAmount / goal.amount) * 100, 100)}%`}}></div>
+                                </div>
+                                <span className="goal_progress_percent">
+                                    {Math.min(Math.round((goal.currentAmount / goal.amount) * 100), 100)}%
+                                </span>
+                            </div>
                             {isActiveTopUp === goal._id ? (
                                 <div className="top_up_inline fade_in">
                                     <input type="number" min="1" max={goal.amount - goal.currentAmount} placeholder={`Enter amount`} value={topUpAmount}
