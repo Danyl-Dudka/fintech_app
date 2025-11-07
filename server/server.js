@@ -300,15 +300,7 @@ app.delete("/user/:id/delete_goal/:goalId", async (req, res) => {
     }
 
     await goal.deleteOne();
-
-    res.json({
-      message:
-        goal.currentAmount > 0
-          ? `Goal deleted $${goal.currentAmount.toFixed(
-              2
-            )} was added back to your balance!`
-          : `Goal succesfully deleted!`,
-    });
+    return res.sendStatus(204);
   } catch (error) {
     console.error("Error deleting goal: ", error);
     res.status(500).json({ message: "Server error!" });
@@ -321,11 +313,13 @@ app.post("/user/:id/:goalId/top_up", async (req, res) => {
   const { topUpAmount } = req.body;
 
   if (!topUpAmount || topUpAmount <= 0) {
-    return res.status(400).json({ message: "Top-up amount must be greater than 0!" });
+    return res
+      .status(400)
+      .json({ message: "Top-up amount must be greater than 0!" });
   }
 
   try {
-    const goal = await Savings.findOne({_id: goalId, userId: id});
+    const goal = await Savings.findOne({ _id: goalId, userId: id });
 
     if (!goal) {
       return res.status(404).json({ message: "Goal not found!" });
@@ -338,12 +332,10 @@ app.post("/user/:id/:goalId/top_up", async (req, res) => {
     }
 
     if (goal.currentAmount >= goal.amount) {
-      return res
-        .status(400)
-        .json({
-          message: `Goal ${goal.title} is already completed!`,
-          goalCompleted: true,
-        });
+      return res.status(400).json({
+        message: `Goal ${goal.title} is already completed!`,
+        goalCompleted: true,
+      });
     }
 
     const remainingToGoal = goal.amount - goal.currentAmount;

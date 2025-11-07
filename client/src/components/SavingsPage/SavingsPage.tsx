@@ -15,7 +15,7 @@ export default function SavingsPage() {
         setIsGoalModalOpen(false)
     }
     return (
-        <>
+        <div className="savings_wrapper">
             <SavingsPageHeader />
             <div className="savings_page_wrapper">
                 <Button onClick={handleGoalModalOpen} className="create_goal_button" variant="contained">Create new Goal</Button>
@@ -25,6 +25,6 @@ export default function SavingsPage() {
                 open={isGoalModalOpen}
                 onClose={handleGoalModalClose}
             />
-        </>
+        </div>
     )
 }

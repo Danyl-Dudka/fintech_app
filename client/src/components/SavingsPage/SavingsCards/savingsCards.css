@@ -243,6 +243,58 @@
     color: #059669;
 }
 
+.confirm_modal {
+    animation: fadeInUp 0.35s ease-in-out;
+    background-color: whitesmoke;
+    border-radius: 16px;
+    padding: 2rem;
+    width: 90%;
+    max-width: 420px;
+    text-align: center;
+    box-shadow: 0px 8px 25px rgba(0, 0, 0, 0, 0.25);
+}
+
+.confirm_title {
+    font-size: 1.6rem;
+    font-weight: 700;
+    margin-bottom: 1rem;
+}
+
+.confirm_title.success {
+    color: #22c55e!important;
+}
+
+.confirm_title.danger {
+    color: #e53935 !important;
+}
+
+.confirm_buttons {
+    display: flex;
+    justify-content: center;
+    gap: 2rem;
+}
+
+.confirm_text {
+    font-size: 1rem;
+    color: #555;
+    margin-bottom: 1.8rem;
+    line-height: 1.5;
+}
+
+.confirm_break_btn {
+    font-weight: 700 !important;
+}
+
+.cancel_break_btn {
+    font-weight: 700 !important;
+    background-color: #e53935 !important;
+    color: white !important;
+}
+
+.cancel_break_btn:hover {
+    background-color: #bf3e3b !important;
+}
+
 @keyframes fadeOutDown {
     from {
         opacity: 1;

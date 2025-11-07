@@ -69,7 +69,7 @@ export default function DiagramBalance({ incomes, expenses, incomesByCategory, e
                     {incomes === 0 && expenses === 0 ? (
                         <div className="no_data">No income or expenses recorded for this month</div>
                     ) : (
-                        <ResponsiveContainer>
+                        <ResponsiveContainer width="100%" height={430}>
                             <PieChart >
                                 <Pie animationDuration={800} className='pie' onClick={summaryAmountNavigate} data={totalData} dataKey='amount' nameKey="type" cx='50%' cy='50%' outerRadius={150} labelLine={false} label={false} >
                                     {totalData.map((transaction) => (
@@ -85,7 +85,7 @@ export default function DiagramBalance({ incomes, expenses, incomesByCategory, e
             {selectedDiagram === 'income' && (
                 <div className="chart_container income">
                     {incomesByCategory.length > 0 ? (
-                        <ResponsiveContainer>
+                        <ResponsiveContainer width="100%" height={430}>
                             <PieChart >
                                 <Pie animationDuration={800} className='pie' onClick={incomesAmountNavigate} data={incomesByCategory} dataKey='amount' nameKey="category" cx='50%' cy='50%' outerRadius={150} labelLine={false} label={false}  >
                                     {incomesByCategory.map((transaction, index) => (
@@ -104,7 +104,7 @@ export default function DiagramBalance({ incomes, expenses, incomesByCategory, e
             {selectedDiagram === 'expense' && (
                 <div className="chart_container expense">
                     {expensesByCategory.length > 0 ? (
-                        <ResponsiveContainer>
+                        <ResponsiveContainer width="100%" height={430}>
                             <PieChart >
                                 <Pie animationDuration={800} className='pie' onClick={expensesAmountNavigate} data={expensesByCategory} dataKey='amount' nameKey="category" cx='50%' cy='50%' labelLine={false} outerRadius={150} label={false} >
                                     {expensesByCategory.map((transaction, index) => (
