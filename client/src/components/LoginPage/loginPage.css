@@ -169,3 +169,16 @@
     height: 28px;
     color: white;
 }
+
+.forgot_password_link {
+  margin-top: 10px;
+  font-size: 0.9rem;
+  color: gray;
+  cursor: pointer;
+  transition: 0.2s;
+}
+
+.forgot_password_link:hover {
+  text-decoration: underline;
+  color: white;
+}

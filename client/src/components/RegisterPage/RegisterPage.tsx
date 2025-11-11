@@ -10,7 +10,7 @@ import { HandCoins } from "lucide-react";
 
 export default function RegisterPage() {
     const [fullname, setFullname] = useState('');
-    const [login, setLogin] = useState('');
+    const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [confirmPassword, setConfirmPassword] = useState('');
     const [formErrors, setFormErrors] = useState<FormErrors>({});
@@ -20,13 +20,13 @@ export default function RegisterPage() {
     const handleRegister = async () => {
         try {
             await registerSchema.validate(
-                { fullname, login, password, confirmPassword },
+                { fullname, email, password, confirmPassword },
                 { abortEarly: false }
             )
             const response = await fetch('http://localhost:3000/register', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ fullname, login, password, confirmPassword })
+                body: JSON.stringify({ fullname, email, password, confirmPassword })
             })
             const data = await response.json();
 
@@ -35,7 +35,7 @@ export default function RegisterPage() {
                 setFormErrors({})
                 setTimeout(() => {
                     setFullname('');
-                    setLogin('');
+                    setEmail('');
                     setPassword('');
                     setConfirmPassword('');
                     navigate('/login')
@@ -80,14 +80,14 @@ export default function RegisterPage() {
                 </div>
 
                 <div className='login_input'>
-                    <span>Login</span>
+                    <span>Email</span>
                     <TextField
                         className='login_field'
-                        placeholder='Enter your login'
-                        value={login}
-                        onChange={(e) => setLogin(e.target.value)}
+                        placeholder='Enter your email'
+                        value={email}
+                        onChange={(e) => setEmail(e.target.value)}
                     />
-                    {formErrors.login && <p className="error_message">{formErrors.login}</p>}
+                    {formErrors.email && <p className="error_message">{formErrors.email}</p>}
                 </div>
 
                 <div className='password_input'>

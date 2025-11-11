@@ -24,20 +24,21 @@ mongoose
   .catch((err) => console.error("MongoDB connection error:", err));
 
 app.post("/register", async (req, res) => {
-  const { fullname, login, password, confirmPassword } = req.body;
+  const { fullname, email, password, confirmPassword } = req.body;
   if (password !== confirmPassword) {
     return res.status(400).json({ message: "Passwords do not match!" });
   }
   try {
-    const existingUser = await User.findOne({ login });
+    const normalizedEmail = email.toLowerCase().trim();
+    const existingUser = await User.findOne({ email: normalizedEmail });
     if (existingUser) {
-      return res.status(400).send({ message: "This login already exists" });
+      return res.status(400).send({ message: "This email already exists" });
     }
 
     const hashedPassword = await bcrypt.hash(password, 10);
     const newUser = new User({
       fullname,
-      login,
+      email: normalizedEmail,
       password: hashedPassword,
       balance: 0.0,
     });
@@ -50,9 +51,10 @@ app.post("/register", async (req, res) => {
 });
 
 app.post("/login", async (req, res) => {
-  const { login, password } = req.body;
+  const normalizedEmail = req.body.email.toLowerCase().trim();
+  const { password } = req.body;
   try {
-    const user = await User.findOne({ login });
+    const user = await User.findOne({ email: normalizedEmail });
     if (!user) {
       return res.status(400).send({ message: "Login is incorrect!" });
     }

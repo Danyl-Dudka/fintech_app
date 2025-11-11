@@ -257,7 +257,7 @@ export default function SavingsCards() {
                                         Are you sure you want to break your goal {' '}
                                         <strong>{goalToDelete.title}</strong>
                                         <br />
-                                        All saved funds will be lost.
+                                        All saved funds will be returned to your balance.
                                     </p>
                                     <div className="confirm_buttons">
                                         <Button

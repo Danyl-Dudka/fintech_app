@@ -7,7 +7,7 @@ import type { FormErrors } from '../types';
 import { AuthContext } from '../../content';
 import { HandCoins } from 'lucide-react';
 export default function LoginPage() {
-    const [login, setLogin] = useState('');
+    const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [formErrors, setFormErrors] = useState<FormErrors>({});
     const { setIsAuth, setBalance } = useContext(AuthContext)
@@ -18,7 +18,7 @@ export default function LoginPage() {
             const response = await fetch('http://localhost:3000/login', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ login, password })
+                body: JSON.stringify({ email, password })
             })
 
             const data = await response.json();
@@ -35,7 +35,7 @@ export default function LoginPage() {
                 setBalance(data.balance);
 
                 setTimeout(() => {
-                    setLogin('');
+                    setEmail('');
                     setPassword('');
                     navigate(`/app/${data.userId}`)
                 }, 1500)
@@ -60,11 +60,14 @@ export default function LoginPage() {
                 </div>
                 {formErrors.server && <p className='server_error_message'>{formErrors.server}</p>}
                 <div className='login_input'>
-                    <span>Login</span>
-                    <TextField variant="outlined" placeholder="Enter your login" value={login} onChange={(e) => setLogin(e.target.value)} className="login_field" />                </div>
+                    <span>Email</span>
+                    <TextField variant="outlined" placeholder="Enter your email" value={email} onChange={(e) => setEmail(e.target.value)} className="login_field" />                </div>
                 <div className='password_input'>
                     <span>Password</span>
                     <TextField variant='outlined' type="password" className='password_field' placeholder='Enter your password' value={password} onChange={(e) => setPassword(e.target.value)} />
+                </div>
+                <div className='forgot_password_block'>
+                    <p className='forgot_password_link' onClick={() => navigate('/forgot_password')}>Forgot password?</p>
                 </div>
                 <div className='login_button_container'>
                     <Button className='login_button' onClick={handleLogin}>Sign in</Button>
