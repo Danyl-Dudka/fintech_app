@@ -7,6 +7,8 @@ import bcrypt from "bcrypt";
 import { User } from "./models/User.js";
 import { Transaction } from "./models/Transaction.js";
 import { Savings } from "./models/SavingsGoal.js";
+import { PasswordReset } from "./models/PasswordReset.js";
+import nodemailer from "nodemailer";
 
 const app = express();
 const PORT = 3000;
@@ -379,6 +381,114 @@ app.post("/user/:id/:goalId/top_up", async (req, res) => {
   }
 });
 
+app.post("/forgot-password-send-code", async (req, res) => {
+  const email = String(req.body.email || "")
+    .toLowerCase()
+    .trim();
+  if (!email || email === "") {
+    return res.status(400).json({ message: "Email is required!" });
+  }
+
+  try {
+    const user = await User.findOne({ email });
+    if (!user) {
+      return res.status(200).json({ message: "Email address is incorrect!" });
+    }
+
+    const code = Math.floor(100000 + Math.random() * 900000).toString();
+    const codeHash = await bcrypt.hash(code, 10);
+    const expiresAt = new Date(Date.now() + 15 * 60 * 1000);
+
+    await PasswordReset.deleteMany({ email });
+
+    await PasswordReset.create({
+      email,
+      codeHash,
+      expiresAt,
+    });
+
+    const transporter = nodemailer.createTransport({
+      service: "gmail",
+      auth: {
+        user: process.env.EMAIL_LOGIN,
+        pass: process.env.EMAIL_PASSWORD,
+      },
+    });
+
+    const mailOptions = {
+      from: `Spendora Support`,
+      to: email,
+      subject: `Your Spendora Password Reset Code`,
+      html: `
+        <div style="font-family: Arial, sans-serif; padding: 20px;">
+      <h2 style="color:#4b7bec;">Password Reset Request</h2>
+          <p>Use the following code to reset your password:</p>
+          <div style="font-size:24px; font-weight:700; letter-spacing:4px; color:#2d3436; margin: 20px auto; text-align: center">
+            ${code}
+          </div>
+          <p>This code will expire in <b>15 minutes</b>.</p>
+          <p>If you didn’t request this, please ignore this message.</p>
+          <hr/>
+          <p style="font-size:12px; color:#888;">© ${new Date().getFullYear()} Spendora</p>
+        </div>
+      `,
+    };
+
+    await transporter.sendMail(mailOptions);
+
+    return res
+      .status(200)
+      .json({ message: "Verification code sent successfully!" });
+  } catch (error) {
+    console.error("Forgot password send code error:", error);
+    return res
+      .status(500)
+      .json({ message: "Server error. Could not send email." });
+  }
+});
+
+app.post("/forgot-password-verify-code", async (req, res) => {
+  const { email, verificationCode } = req.body;
+
+  const normalizedEmail = String(email || "")
+    .toLowerCase()
+    .trim();
+  const enteredCode = String(verificationCode || "").trim();
+
+  if (!normalizedEmail || normalizedEmail === "") {
+    return res.status(400).json({ message: "Email is required!" });
+  }
+  if (!enteredCode || enteredCode === "") {
+    return res.status(400).json({ message: "Verification code is required!" });
+  }
+  try {
+    const record = await PasswordReset.findOne({ email: normalizedEmail }).sort(
+      { createdAt: -1 }
+    );
+    if (!record) {
+      return res.status(400).json({ message: "No valid code found." });
+    }
+
+    if (record.expiresAt < new Date()) {
+      return res.status(400).json({ message: "Code has expired." });
+    }
+
+    const isMatch = await bcrypt.compare(enteredCode, record.codeHash);
+    if (!isMatch) {
+      return res.status(400).json({ message: "Code is incorrect" });
+    }
+
+    record.verified = true;
+    await record.save();
+    return res.status(200).json({ message: "Code verified successfully!" });
+  } catch (error) {
+    console.error("Error verifying code:", error);
+    return res
+      .status(500)
+      .json({ message: "Server error. Could not verify code." });
+  }
+});
+
 app.listen(PORT, () => {
-  console.log(`Server running on http:localhost:${PORT}`);
+  console.log(`Server running on http://localhost:${PORT}`);
 });

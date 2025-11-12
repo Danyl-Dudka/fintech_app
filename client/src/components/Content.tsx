@@ -15,6 +15,7 @@ import ProjectApp from "./ProjectApp/ProjectApp";
 import TransactionsPage from "./TransactionsHistory/TransactionsPage";
 import SavingsPage from "./SavingsPage/SavingsPage";
 import ForgotPasswordPage from "./ForgotPasswordPage/ForgotPasswordPage";
+import CreateNewPasswordPage from "./CreateNewPasswordPage/CreateNewPasswordPage";
 export default function Content() {
   const { isAuth } = useContext(AuthContext);
 
@@ -176,6 +177,20 @@ export default function Content() {
         />
 
         <Route
+          path="new_password"
+          element={<motion.div
+            initial="initial"
+            animate="in"
+            exit="out"
+            variants={pageVariants}
+            transition={pageTransition}
+            style={{ height: "100%" }}
+          >
+            <CreateNewPasswordPage />
+          </motion.div>
+          }
+        />
+        <Route
           path="/app/:userId"
           element={<motion.div
             initial="initial"
@@ -245,6 +260,8 @@ export default function Content() {
           </motion.div>
           }
         />
+
+
 
       </Routes>
     </AnimatePresence>
