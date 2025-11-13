@@ -17,6 +17,12 @@ const forgotPasswordSchema = yup.object().shape({
     email: yup.string().required('Email is required!').email('Invalid email address'),
 })
 
+const newPasswordSchema = yup.object().shape({
+    newPassword: yup.string().required("Password is required").min(5, "Password must be at least 5 characters"),
+    confirmNewPassword: yup.string().required('Password confirmation is required').oneOf([yup.ref('newPassword')], 'Password must match'),
+})
+
 export default registerSchema;
 export { transactionSchema };
 export { forgotPasswordSchema };
+export { newPasswordSchema };

@@ -392,7 +392,7 @@ app.post("/forgot-password-send-code", async (req, res) => {
   try {
     const user = await User.findOne({ email });
     if (!user) {
-      return res.status(200).json({ message: "Email address is incorrect!" });
+      return res.status(400).json({ message: "Email address is incorrect!" });
     }
 
     const code = Math.floor(100000 + Math.random() * 900000).toString();
@@ -486,6 +486,54 @@ app.post("/forgot-password-verify-code", async (req, res) => {
     return res
       .status(500)
       .json({ message: "Server error. Could not verify code." });
+  }
+});
+
+app.post("/reset-password", async (req, res) => {
+  const { email, newPassword, confirmNewPassword } = req.body;
+
+  const normalizedEmail = String(email || "")
+    .toLowerCase()
+    .trim();
+
+  if (!newPassword) {
+    return res.status(400).json({ message: "Please enter the new password" });
+  }
+
+  if (!confirmNewPassword) {
+    return res.status(400).json({ message: "Please confirm the new password" });
+  }
+
+  if (newPassword !== confirmNewPassword) {
+    return res.status(400).json({ message: "Passwords do not match" });
+  }
+  try {
+    const record = await PasswordReset.findOne({ email: normalizedEmail }).sort(
+      { createdAt: -1 }
+    );
+    if (!record || !record.verified) {
+      return res.status(400).json({ message: "Code not verified" });
+    }
+
+    const user = await User.findOne({ email: normalizedEmail });
+    if (!user) {
+      return res.status(404).json({ message: "User is not found." });
+    }
+
+    const isSameAsOld = await bcrypt.compare(newPassword, user.password);
+    if (isSameAsOld) {
+      return res.status(400).json({ message: "New password must be different from the previous one.",});
+    }
+
+    user.password = await bcrypt.hash(newPassword, 10);
+
+    await user.save();
+
+    await PasswordReset.deleteMany({ email: normalizedEmail });
+    return res.status(200).json({ message: "Password successfully updated!" });
+  } catch (error) {
+    console.error("Error resetting password: ", error);
+    return res.status(500).json({ message: "Server error!" });
   }
 });
 

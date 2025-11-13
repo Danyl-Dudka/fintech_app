@@ -62,6 +62,7 @@ export default function ForgotPasswordPage() {
             }
             toast.success(data.message || 'Code verified successfully!');
             sessionStorage.setItem('resetVerified', 'true');            
+            sessionStorage.setItem('resetEmail', email);
             
             setTimeout(() => {
                 navigate('/new_password')
