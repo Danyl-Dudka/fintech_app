@@ -5,6 +5,7 @@ import { useEffect, useState } from "react";
 import CardsBalance from "../CardsBalance/CardsBalance";
 import DiagramBalance from "../DiagramBalance/DiagramBalance";
 import type { CategoryAmount } from "../types";
+import { api } from "../../api/api";
 export default function ProjectApp() {
     const { userId: urlUserId } = useParams();
     const navigate = useNavigate();
@@ -20,9 +21,8 @@ export default function ProjectApp() {
     const [selectedDiagram, setSelectedDiagram] = useState<'summary' | 'income' | 'expense'>("summary");
 
     useEffect(() => {
-        const token = sessionStorage.getItem('token');
         const sessionUserId = sessionStorage.getItem('userId');
-        if (!token || !sessionUserId) {
+        if (!sessionUserId) {
             navigate('/login')
             return
         } else if (urlUserId !== sessionUserId) {
@@ -33,16 +33,10 @@ export default function ProjectApp() {
 
     useEffect(() => {
         const fetchAmountByCategory = async () => {
-            const token = sessionStorage.getItem('token');
             const sessionUserId = sessionStorage.getItem('userId');
-            if (!token || !sessionUserId) {
-                navigate('/login');
-                return;
-            }
             try {
-                const response = await fetch(`http://localhost:3000/user/${sessionUserId}/amount_by_category`, {
+                const response = await api(`http://localhost:3000/user/${sessionUserId}/amount_by_category`, {
                     method: 'GET',
-                    headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${token}` }
                 });
 
                 const data = await response.json();

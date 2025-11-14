@@ -3,11 +3,11 @@ import type { BalanceControlModalProps, FormErrors } from "../types";
 import { transactionSchema } from "../validation/validationSchema";
 import { useState } from "react";
 import './balanceControlModal.css'
-import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import { ValidationError } from "yup";
 import { DollarSign, Bitcoin, BriefcaseBusiness, CircleDollarSign, Gift, BanknoteArrowDown, BanknoteArrowUp, PiggyBank, Landmark, Banknote, Files, Cable, GraduationCap } from "lucide-react";
 import { House, Coins, Fuel, Apple, Wine, HeartPlus, Drama, Utensils, Coffee } from "lucide-react";
+import { api } from "../../api/api";
 export default function BalanceControlModal({ open, onClose, modalMode }: BalanceControlModalProps) {
     const [amount, setAmount] = useState<number | ''>('');
     const [description, setDescription] = useState<string>('');
@@ -44,24 +44,17 @@ export default function BalanceControlModal({ open, onClose, modalMode }: Balanc
         { name: 'Education', icon: <GraduationCap /> }
     ]
 
-    const navigate = useNavigate();
 
     const handleSubmit = async () => {
-        const token = sessionStorage.getItem('token');
         const sessionUserId = sessionStorage.getItem('userId');
-        if (!token || !sessionUserId) {
-            navigate('/login')
-            return;
-        }
         try {
             await transactionSchema.validate(
                 { amount, description, category: selectedCategory },
                 { abortEarly: false }
             )
 
-            const response = await fetch(`http://localhost:3000/user/${sessionUserId}/money_control`, {
+            const response = await api(`http://localhost:3000/user/${sessionUserId}/money_control`, {
                 method: 'POST',
-                headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${token}` },
                 body: JSON.stringify({ amount, description, category: selectedCategory, type: modalMode })
             });
 

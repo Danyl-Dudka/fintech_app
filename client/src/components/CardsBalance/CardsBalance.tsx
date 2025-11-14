@@ -1,24 +1,17 @@
 import { ArrowDownLeft, ArrowUpRight, Wallet } from "lucide-react";
 import { useEffect } from "react";
-import { useNavigate } from "react-router-dom";
 import './cardsBalance.css'
 import type { CardsBalanceProps } from "../types";
+import { api } from "../../api/api";
 
 export default function CardsBalance({ income, expense, balance, setIncome, setExpense, setBalance, setSelectedDiagram }: CardsBalanceProps) {
-    const navigate = useNavigate();
 
     useEffect(() => {
         const fetchBalance = async () => {
-            const token = sessionStorage.getItem('token');
             const sessionUserId = sessionStorage.getItem('userId');
-            if (!token || !sessionUserId) {
-                navigate('/login')
-                return;
-            }
             try {
-                const response = await fetch(`http://localhost:3000/user/${sessionUserId}/balance`, {
+                const response = await api(`http://localhost:3000/user/${sessionUserId}/balance`, {
                     method: 'GET',
-                    headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${token}` },
                 });
 
                 const data = await response.json();
@@ -32,18 +25,10 @@ export default function CardsBalance({ income, expense, balance, setIncome, setE
         };
 
         const fetchSummary = async () => {
-            const token = sessionStorage.getItem('token');
             const sessionUserId = sessionStorage.getItem('userId');
-
-            if (!token || !sessionUserId) {
-                navigate('/login');
-                return;
-            }
-
             try {
-                const response = await fetch(`http://localhost:3000/user/${sessionUserId}/current_month_summary`, {
+                const response = await api(`http://localhost:3000/user/${sessionUserId}/current_month_summary`, {
                     method: 'GET',
-                    headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${token}` }
                 });
 
                 const data = await response.json();

@@ -3,6 +3,7 @@ import type { GoalModalProps } from "../../types";
 import './createGoalModal.css'
 import { useState } from "react";
 import { toast } from "react-toastify";
+import { api } from "../../../api/api";
 export default function CreateGoalModal({ open, onClose }: GoalModalProps) {
     const [goalTitle, setGoalTitle] = useState('');
     const [goalAmount, setGoalAmount] = useState('');
@@ -11,9 +12,8 @@ export default function CreateGoalModal({ open, onClose }: GoalModalProps) {
 
     const handleCreateGoal = async () => {
         try {
-            const response = await fetch(`http://localhost:3000/user/${sessionUserId}/create_goal`, {
+            const response = await api(`http://localhost:3000/user/${sessionUserId}/create_goal`, {
                 method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ goalAmount, goalTitle })
             });
 

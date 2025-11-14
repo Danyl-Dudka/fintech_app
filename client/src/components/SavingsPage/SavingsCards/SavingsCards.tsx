@@ -5,6 +5,7 @@ import './savingsCards.css'
 import { Check, Hammer, X } from "lucide-react";
 import { Button, IconButton, Modal } from "@mui/material";
 import { toast } from "react-toastify";
+import { api } from "../../../api/api";
 export default function SavingsCards() {
     const [goals, setGoals] = useState<Goal[]>([]);
     const [isActiveTopUp, setIsActiveTopUp] = useState<string | null>(null);
@@ -40,17 +41,11 @@ export default function SavingsCards() {
     const navigate = useNavigate();
     useEffect(() => {
         const fetchSavingsGoals = async () => {
-            const token = sessionStorage.getItem('token');
             const sessionUserId = sessionStorage.getItem('userId');
 
-            if (!token || !sessionUserId) {
-                navigate('/login');
-                return
-            }
             try {
-                const response = await fetch(`http://localhost:3000/user/${sessionUserId}/goals`, {
+                const response = await api(`http://localhost:3000/user/${sessionUserId}/goals`, {
                     method: 'GET',
-                    headers: { 'Content-Type': 'application/json' }
                 });
 
                 const data = await response.json();
@@ -66,18 +61,11 @@ export default function SavingsCards() {
     }, [navigate]);
 
     const handleTopUp = async (goalId: string) => {
-        const token = sessionStorage.getItem('token');
         const userId = sessionStorage.getItem('userId');
 
-        if (!token || !userId) {
-            navigate('/login');
-            return;
-        }
-
         try {
-            const response = await fetch(`http://localhost:3000/user/${userId}/${goalId}/top_up`, {
+            const response = await api(`http://localhost:3000/user/${userId}/${goalId}/top_up`, {
                 method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ topUpAmount: Number(topUpAmount) }),
             })
 
@@ -119,18 +107,10 @@ export default function SavingsCards() {
     }
 
     const handleDeleteGoal = async (goalId: string) => {
-        const token = sessionStorage.getItem('token');
         const sessionUserId = sessionStorage.getItem('userId');
-
-        if (!token || !sessionUserId) {
-            navigate('/login');
-            return
-        }
-
         try {
-            const response = await fetch(`http://localhost:3000/user/${sessionUserId}/delete_goal/${goalId}`, {
+            const response = await api(`http://localhost:3000/user/${sessionUserId}/delete_goal/${goalId}`, {
                 method: 'DELETE',
-                headers: { 'Content-Type': 'application/json' }
             });
 
             if (response.ok) {

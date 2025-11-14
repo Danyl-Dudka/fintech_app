@@ -9,12 +9,18 @@ import { Transaction } from "./models/Transaction.js";
 import { Savings } from "./models/SavingsGoal.js";
 import { PasswordReset } from "./models/PasswordReset.js";
 import nodemailer from "nodemailer";
+import { createAccessToken } from "./tokens/CreateAccessToken.js";
+import { createRefreshToken } from "./tokens/CreateRefreshToken.js";
 
 const app = express();
 const PORT = 3000;
-const JWT_SECRET = process.env.JWT_SECRET;
+app.use(
+  cors({
+    origin: "http://localhost:5173",
+    credentials: true,
+  })
+);
 app.use(express.json());
-app.use(cors());
 
 const MONGO_URI = `mongodb+srv://${process.env.DB_USER}:${process.env.DB_PASSWORD}@fintech.froeigt.mongodb.net/?retryWrites=true&w=majority&appName=FinTech`;
 
@@ -66,14 +72,18 @@ app.post("/login", async (req, res) => {
       return res.status(400).send({ message: "Password is incorrect!" });
     }
 
-    const token = jwt.sign(
-      { userId: user._id, fullname: user.fullname },
-      JWT_SECRET,
-      { expiresIn: "1h" }
-    );
+    const accessToken = createAccessToken(user);
+    const refreshToken = createRefreshToken(user);
+
+    res.cookie("refreshToken", refreshToken, {
+      httpOnly: true,
+      secure: true,
+      sameSite: "strict",
+      maxAge: 30 * 24 * 60 * 60 * 1000,
+    });
 
     res.json({
-      token,
+      accessToken,
       userId: user._id,
       fullname: user.fullname,
       balance: Number(user.balance.toFixed(2)),
@@ -82,6 +92,29 @@ app.post("/login", async (req, res) => {
   } catch (error) {
     console.error("Login error: ", error);
     res.status(500).send({ message: "Server error" });
+  }
+});
+
+app.post("/refresh", async (req, res) => {
+  try {
+    const token = req.cookies.refreshToken;
+    if (!token) {
+      return res.status(401).json({ message: "No refresh token" });
+    }
+
+    const decoded = jwt.verify(token, process.env.JWT_REFRESH_SECRET);
+
+    const user = await User.findById(decoded.userId);
+
+    if (!user) {
+      return res.status(404).json({ message: "User not found" });
+    }
+
+    const newAccessToken = createAccessToken(user);
+    return res.json({ accessToken: newAccessToken });
+  } catch (error) {
+    console.error("Refresh error: ", error);
+    return res.status(403).json({ message: "Invalid refresh token" });
   }
 });
 
@@ -522,7 +555,9 @@ app.post("/reset-password", async (req, res) => {
 
     const isSameAsOld = await bcrypt.compare(newPassword, user.password);
     if (isSameAsOld) {
-      return res.status(400).json({ message: "New password must be different from the previous one.",});
+      return res.status(400).json({
+        message: "New password must be different from the previous one.",
+      });
     }
 
     user.password = await bcrypt.hash(newPassword, 10);

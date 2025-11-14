@@ -4,6 +4,7 @@ import type { TransactionPageProps, Transactions } from "../types";
 import './transactionsPage.css';
 import { useNavigate } from "react-router-dom";
 import { Button } from "@mui/material";
+import { api } from "../../api/api";
 export default function TransactionsHistory({ type }: TransactionPageProps) {
   const [transactions, setTransactions] = useState<Transactions[]>([]);
   const [error, setError] = useState<string | null>(null);
@@ -19,10 +20,9 @@ export default function TransactionsHistory({ type }: TransactionPageProps) {
 
   useEffect(() => {
     const fetchTransactions = async () => {
-      const token = sessionStorage.getItem('token');
       const sessionUserId = sessionStorage.getItem('userId');
 
-      if (!token || !sessionUserId) {
+      if (!sessionUserId) {
         navigate('/login');
         return;
       }
@@ -33,9 +33,8 @@ export default function TransactionsHistory({ type }: TransactionPageProps) {
           url += `?type=${type}`
         }
 
-        const response = await fetch(url, {
+        const response = await api(url, {
           method: 'GET',
-          headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${token}` }
         })
 
         const data = await response.json();
