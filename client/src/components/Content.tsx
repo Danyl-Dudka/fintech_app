@@ -16,6 +16,7 @@ import TransactionsPage from "./TransactionsHistory/TransactionsPage";
 import SavingsPage from "./SavingsPage/SavingsPage";
 import ForgotPasswordPage from "./ForgotPasswordPage/ForgotPasswordPage";
 import CreateNewPasswordPage from "./CreateNewPasswordPage/CreateNewPasswordPage";
+import EmailVerificationPage from "./EmailVerificationPage/EmailVerificationPage";
 export default function Content() {
   const { isAuth } = useContext(AuthContext);
 
@@ -157,6 +158,22 @@ export default function Content() {
             style={{ height: "100%" }}
           >
             <RegisterPage />
+          </motion.div>
+          }
+        />
+
+
+        <Route
+          path="/email_verification"
+          element={<motion.div
+            initial="initial"
+            animate="in"
+            exit="out"
+            variants={pageVariants}
+            transition={pageTransition}
+            style={{ height: "100%" }}
+          >
+            <EmailVerificationPage />
           </motion.div>
           }
         />

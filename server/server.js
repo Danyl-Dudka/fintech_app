@@ -11,6 +11,9 @@ import { PasswordReset } from "./models/PasswordReset.js";
 import nodemailer from "nodemailer";
 import { createAccessToken } from "./tokens/CreateAccessToken.js";
 import { createRefreshToken } from "./tokens/CreateRefreshToken.js";
+import { PendingUser } from "./models/PendingUser.js";
+import { emailVerificationTemplate } from "./templates/emailVerificationTemplate.js";
+import forgotPasswordTemplate from "./templates/forgotPasswordTemplate.js";
 
 const app = express();
 const PORT = 3000;
@@ -38,23 +41,88 @@ app.post("/register", async (req, res) => {
   }
   try {
     const normalizedEmail = email.toLowerCase().trim();
+
     const existingUser = await User.findOne({ email: normalizedEmail });
     if (existingUser) {
       return res.status(400).send({ message: "This email already exists" });
     }
 
-    const hashedPassword = await bcrypt.hash(password, 10);
-    const newUser = new User({
+    await PendingUser.deleteMany({ email: normalizedEmail });
+
+    const passwordHash = await bcrypt.hash(password, 10);
+
+    const code = Math.floor(100000 + Math.random() * 900000).toString();
+    const codeHash = await bcrypt.hash(code, 10);
+
+    await PendingUser.create({
       fullname,
       email: normalizedEmail,
-      password: hashedPassword,
-      balance: 0.0,
+      passwordHash,
+      codeHash,
+      expiresAt: new Date(Date.now() + 15 * 60 * 1000),
     });
-    await newUser.save();
-    res.json({ message: "User registered successfully!" });
+
+    const transporter = nodemailer.createTransport({
+      service: "gmail",
+      auth: {
+        user: process.env.EMAIL_LOGIN,
+        pass: process.env.EMAIL_PASSWORD,
+      },
+    });
+
+    const mailOptions = {
+      from: `Spendora Support`,
+      to: normalizedEmail,
+      subject: "Verify your email for Spendora",
+      html: emailVerificationTemplate(fullname, code),
+    };
+
+    await transporter.sendMail(mailOptions);
+
+    res.json({ message: "Verification code sent successfully!" });
   } catch (error) {
     console.error("Register error:", error);
     res.status(500).send({ message: "Registration failed" });
+  }
+});
+
+app.post("/verify_email", async (req, res) => {
+  const { email, code } = req.body;
+  const normalizedEmail = email.toLowerCase().trim();
+
+  try {
+    const pending = await PendingUser.findOne({ email: normalizedEmail });
+    if (!pending) {
+      return res
+        .status(400)
+        .json({ message: "Verification request not found!" });
+    }
+
+    if (pending.expiresAt < new Date()) {
+      await PendingUser.deleteMany({ email: normalizedEmail });
+      return res.status(400).json({ message: "Verification code expired!" });
+    }
+
+    const isMatch = await bcrypt.compare(code, pending.codeHash);
+    if (!isMatch) {
+      return res.status(400).json({ message: "Code is incorrect" });
+    }
+
+    const newUser = new User({
+      fullname: pending.fullname,
+      email: pending.email,
+      password: pending.passwordHash,
+      balance: 0,
+    });
+
+    await newUser.save();
+
+    await PendingUser.deleteMany({ email: normalizedEmail });
+
+    return res.json({ message: "Email verified!" });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: "Server error" });
   }
 });
 
@@ -452,19 +520,7 @@ app.post("/forgot-password-send-code", async (req, res) => {
       from: `Spendora Support`,
       to: email,
       subject: `Your Spendora Password Reset Code`,
-      html: `
-        <div style="font-family: Arial, sans-serif; padding: 20px;">
-      <h2 style="color:#4b7bec;">Password Reset Request</h2>
-          <p>Use the following code to reset your password:</p>
-          <div style="font-size:24px; font-weight:700; letter-spacing:4px; color:#2d3436; margin: 20px auto; text-align: center">
-            ${code}
-          </div>
-          <p>This code will expire in <b>15 minutes</b>.</p>
-          <p>If you didn’t request this, please ignore this message.</p>
-          <hr/>
-          <p style="font-size:12px; color:#888;">© ${new Date().getFullYear()} Spendora</p>
-        </div>
-      `,
+      html: forgotPasswordTemplate(code),
     };
 
     await transporter.sendMail(mailOptions);

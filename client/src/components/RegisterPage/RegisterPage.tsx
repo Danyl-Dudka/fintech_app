@@ -31,14 +31,13 @@ export default function RegisterPage() {
             const data = await response.json();
 
             if (response.ok) {
-                toast.success(data.message || 'Registration successful!');
-                setFormErrors({})
+                setFormErrors({});
+                toast.success(data.message || 'Verification code has been sent to your email!');
+                sessionStorage.setItem('emailVerification', email);
                 setTimeout(() => {
-                    setFullname('');
-                    setEmail('');
-                    setPassword('');
-                    setConfirmPassword('');
-                    navigate('/login')
+                    navigate('/email_verification', {
+                        state: { email }
+                    })
                 }, 1500)
             } else {
                 toast.error(data.message || 'Registration failed')
