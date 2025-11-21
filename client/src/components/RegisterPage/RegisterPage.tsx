@@ -2,7 +2,6 @@ import { Button, TextField } from "@mui/material";
 import './registerPage.css';
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { toast } from "react-toastify";
 import registerSchema from "../validation/validationSchema";
 import { ValidationError } from "yup";
 import type { FormErrors } from "../types";
@@ -15,9 +14,14 @@ export default function RegisterPage() {
     const [confirmPassword, setConfirmPassword] = useState('');
     const [formErrors, setFormErrors] = useState<FormErrors>({});
 
+    const [isLoading, setIsLoading] = useState(false);
+    const [isSuccess, setIsSuccess] = useState(false);
+
     const navigate = useNavigate();
 
     const handleRegister = async () => {
+        setIsLoading(true);
+        setIsSuccess(false)
         try {
             await registerSchema.validate(
                 { fullname, email, password, confirmPassword },
@@ -32,15 +36,21 @@ export default function RegisterPage() {
 
             if (response.ok) {
                 setFormErrors({});
-                toast.success(data.message || 'Verification code has been sent to your email!');
                 sessionStorage.setItem('emailVerification', email);
+
+                setTimeout(() => {
+                    setIsLoading(false);
+                    setIsSuccess(true)
+                }, 500)
+
                 setTimeout(() => {
                     navigate('/email_verification', {
                         state: { email }
                     })
-                }, 1500)
+                }, 1600)
             } else {
-                toast.error(data.message || 'Registration failed')
+                setIsLoading(false);
+                setFormErrors({ server: data.message })
             }
         } catch (error) {
             if (error instanceof ValidationError) {
@@ -52,7 +62,6 @@ export default function RegisterPage() {
                 })
                 setFormErrors(errors)
             } else {
-                toast.error('Unexpected error during validation!')
                 console.error('Server error: ', error)
             }
         }
@@ -114,7 +123,11 @@ export default function RegisterPage() {
                 </div>
 
                 <div className='register_button_container'>
-                    <Button className='register_button' onClick={handleRegister}>Register</Button>
+                    <Button className={`register_button ${isLoading ? 'loading' : ''} ${isSuccess ? 'success' : ''}`} onClick={handleRegister} disabled={isLoading || isSuccess}>
+                        {!isLoading && !isSuccess && 'Register'}
+                        {isLoading && <span className="loader_small"></span>}
+                        {isSuccess && <span className="checkmark">✔</span>}
+                    </Button>
                 </div>
 
                 <div className='login_button_container'>
