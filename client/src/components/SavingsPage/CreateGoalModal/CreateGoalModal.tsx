@@ -2,11 +2,11 @@ import { Modal, Box, TextField, InputAdornment, Button } from "@mui/material";
 import type { GoalModalProps } from "../../types";
 import './createGoalModal.css'
 import { useState } from "react";
-import { toast } from "react-toastify";
 import { api } from "../../../api/api";
 export default function CreateGoalModal({ open, onClose }: GoalModalProps) {
     const [goalTitle, setGoalTitle] = useState('');
     const [goalAmount, setGoalAmount] = useState('');
+    const [notification, setNotification] = useState<{ message: string, type: 'success' | 'error' } | null>(null)
 
     const sessionUserId = sessionStorage.getItem('userId');
 
@@ -20,17 +20,18 @@ export default function CreateGoalModal({ open, onClose }: GoalModalProps) {
             const data = await response.json();
 
             if (response.ok) {
-                toast.success(data.message || 'Goal was successfully created!');
+                setNotification({ message: data.message || 'Goal was successfully created!', type: 'success' });
                 setGoalTitle('');
                 setGoalAmount('')
-                onClose();
                 setTimeout(() => {
+                    setNotification(null);
+                    onClose();
                     window.location.reload()
                 }, 1500)
             }
 
         } catch (error) {
-            toast.error('Goal is not created');
+            setNotification({ message: 'Goal is not created', type: 'error' });
             console.error('Error: ', error)
         }
     }
@@ -71,12 +72,18 @@ export default function CreateGoalModal({ open, onClose }: GoalModalProps) {
                         />
                         <TextField
                             value={goalTitle}
-                            type="string"
+                            type="text"
                             variant="outlined"
                             label="Savings goal"
                             className="goal_name_input"
                             onChange={(event) => setGoalTitle(event.target.value)}
                         />
+
+                        {notification && (
+                            <div className={`goal_notification ${notification.type} animate`}>
+                                {notification.message}
+                            </div>
+                        )}
                         <div className="add_goal_button_wrapper">
                             <Button onClick={handleCreateGoal} variant='contained' className="add_goal_button">ADD GOAL</Button>
                         </div>
