@@ -14,6 +14,7 @@ export default function BalanceControlModal({ open, onClose, modalMode }: Balanc
     const [formErrors, setFormErrors] = useState<FormErrors>({});
     const [selectedCategory, setSelectedCategory] = useState('');
 
+    const [successBanner, setSuccessBanner] = useState(false);
 
     const incomeCategories = [
         { name: 'Salary', icon: <DollarSign /> },
@@ -61,13 +62,14 @@ export default function BalanceControlModal({ open, onClose, modalMode }: Balanc
             const data = await response.json();
 
             if (response.ok) {
-                toast.success(data.message || 'New transaction was successfully created!');
+                setSuccessBanner(true)
                 setFormErrors({});
                 setAmount('');
                 setDescription('');
                 setSelectedCategory('');
                 onClose();
                 setTimeout(() => {
+                    setSuccessBanner(false)
                     window.location.reload();
                 }, 1500)
             } else {
@@ -92,6 +94,7 @@ export default function BalanceControlModal({ open, onClose, modalMode }: Balanc
 
     return (
         <>
+            {successBanner && <div className="tag_success">Saved!</div>}
             <Modal
                 open={open}
                 onClose={onClose}
@@ -109,7 +112,6 @@ export default function BalanceControlModal({ open, onClose, modalMode }: Balanc
                         <div className="balance_modal_title">
                             <strong>{modalMode === 'income' ? 'Add New Income' : 'Add New Expense'}</strong>
                         </div>
-
                         {formErrors.amount && <p className="error_message">{formErrors.amount}</p>}
                         <TextField
                             className={modalMode === 'income' ? "income_textfield" : "expense_textfield"}
