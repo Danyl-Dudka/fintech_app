@@ -16,22 +16,24 @@ function App() {
   })
   return (
     <AuthContext.Provider value={{ isAuth, setIsAuth, balance, setBalance, userId, setUserId }}>
-      <BrowserRouter>
-        <Routes>
-          <Route path='/*' element={<Content />} />
-        </Routes>
-      </BrowserRouter>
+      <div className='app_container'>
+        <BrowserRouter>
+          <Routes>
+            <Route path='/*' element={<Content />} />
+          </Routes>
+        </BrowserRouter>
 
-      <ToastContainer
-        position="top-center"
-        autoClose={1000}
-        hideProgressBar={false}
-        newestOnTop={false}
-        closeOnClick
-        pauseOnFocusLoss
-        draggable
-        pauseOnHover
-      />
+        <ToastContainer
+          position="top-center"
+          autoClose={1000}
+          hideProgressBar={false}
+          newestOnTop={false}
+          closeOnClick
+          pauseOnFocusLoss
+          draggable
+          pauseOnHover
+        />
+      </div>
     </AuthContext.Provider>
   )
 }

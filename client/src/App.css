@@ -5,35 +5,26 @@
   font-style: normal;
 }
 
+.app_container {
+  width: 95%;
+  margin: 1rem auto;
+  box-sizing: border-box;
+}
+
 body {
   margin: 0;
   padding: 0;
   height: 100%;
-  background: linear-gradient(-45deg, #0d0d0d, #1a1a1a, #000000, #121212);
-  background-size: 400% 400%;
-  animation: gradientAnimation 20s ease infinite;
-  color: rgba(255, 255, 255, 0.096);
-  font-family: "Mozilla Headline", sans serif;
+  transition: background-color 0.8s ease, color 0.8s ease;
 }
 
-@keyframes gradientAnimation {
-  0% {
-    background-position: 0% 50%;
-  }
+body.light {
+  background: #d1deea;
+  color: #0f172a;
+}
 
-  25% {
-    background-position: 50% 50%;
-  }
 
-  50% {
-    background-position: 100% 50%;
-  }
-
-  75% {
-    background-position: 50% 50%;
-  }
-
-  100% {
-    background-position: 0% 50%;
-  }
+body.dark {
+  background: #0b0e15;
+  color: #cfd8e3;
 }

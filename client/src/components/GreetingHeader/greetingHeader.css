@@ -1,9 +1,10 @@
 .header_wrapper {
-    width: 100%;
+    max-width: 95vw;
     background-color: #0f172a;
-    padding: 1rem 2rem;
+    padding: 2rem;
     box-sizing: border-box;
     border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 18px;
 }
 
 
@@ -192,5 +193,18 @@
 .savings_title {
     margin-right: 0.6rem;
     font-size: 16px;
-    
+
+}
+
+.theme_icon {
+    display: inline-block;
+    transition: transform 0.4s ease;
+}
+
+body.dark .theme_icon {
+    transform: rotate(180deg);
+}
+
+body.light .theme_icon {
+    transform: rotate(0deg);
 }

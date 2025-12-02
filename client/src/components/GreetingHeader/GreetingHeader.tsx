@@ -1,8 +1,8 @@
 import { Button, IconButton, Menu, MenuItem } from '@mui/material';
 import './greetingHeader.css'
-import { Sun, BanknoteArrowUp, BanknoteArrowDown, PiggyBank } from 'lucide-react';
+import { Sun, BanknoteArrowUp, BanknoteArrowDown, PiggyBank, Moon } from 'lucide-react';
 import { useContext, useState } from 'react';
-import { AuthContext } from '../../content';
+import { AuthContext, ThemeContext } from '../../content';
 import { useNavigate } from 'react-router-dom';
 import BalanceControlModal from '../BalanceControlModal/BalanceControlModal';
 import type { ModalMode } from '../types';
@@ -17,6 +17,8 @@ export default function GreetingHeader() {
     const [modalMode, setModalMode] = useState<ModalMode>('income');
 
     const { userId } = useContext(AuthContext);
+
+    const { theme, toggleTheme } = useContext(ThemeContext);
 
     const handleLogout = () => {
         sessionStorage.removeItem('token');
@@ -59,9 +61,9 @@ export default function GreetingHeader() {
                         <p className='title_upper'>Finance Overview</p>
                     </div>
                     <div className='right_section'>
-                        <IconButton className="theme_button">
-                            <Sun fontSize="inherit" color='white' />
-                        </IconButton>
+                        <IconButton className="theme_button" onClick={toggleTheme}>
+                            {theme === 'dark' ? <Sun className='theme_icon' fontSize="inherit" color='white' /> : <Moon className='theme_icon' fontSize='inherit' color='white' />}
+                        </IconButton> 
                         <p className='accounting_info'>Current account: <span className='accounting_option'>Finance</span></p>
                         <Button onClick={handleSavingsNavigate} className='savings_button'>
                             <span className='savings_title'>Savings</span>

@@ -170,3 +170,16 @@
 .move_back_button:active {
     transform: scale(0.98);
 }
+
+.theme_icon {
+    display: inline-block;
+    transition: transform 0.4s ease;
+}
+
+body.dark .theme_icon {
+    transform: rotate(180deg);
+}
+
+body.light .theme_icon {
+    transform: rotate(0deg);
+}

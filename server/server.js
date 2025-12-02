@@ -14,6 +14,7 @@ import { createRefreshToken } from "./tokens/CreateRefreshToken.js";
 import { PendingUser } from "./models/PendingUser.js";
 import { emailVerificationTemplate } from "./templates/emailVerificationTemplate.js";
 import forgotPasswordTemplate from "./templates/forgotPasswordTemplate.js";
+import cookieParser from "cookie-parser";
 
 const app = express();
 const PORT = 3000;
@@ -24,6 +25,7 @@ app.use(
   })
 );
 app.use(express.json());
+app.use(cookieParser());
 
 const MONGO_URI = `mongodb+srv://${process.env.DB_USER}:${process.env.DB_PASSWORD}@fintech.froeigt.mongodb.net/?retryWrites=true&w=majority&appName=FinTech`;
 
@@ -129,6 +131,7 @@ app.post("/verify_email", async (req, res) => {
 app.post("/login", async (req, res) => {
   const normalizedEmail = req.body.email.toLowerCase().trim();
   const { password } = req.body;
+  
   try {
     const user = await User.findOne({ email: normalizedEmail });
     if (!user) {
