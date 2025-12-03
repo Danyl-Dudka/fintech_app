@@ -7,5 +7,7 @@
 }
 
 .savings_wrapper {
+    width: 95%;
+    margin: 1rem auto;
     padding-bottom: 3rem !important;
 }

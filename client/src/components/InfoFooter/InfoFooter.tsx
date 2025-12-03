@@ -10,7 +10,7 @@ export default function InfoFooter() {
           <div className="first_block">
             <ul>
               <li className="logo_element"><HandCoins className='logo_icon' />Spendora</li>
-              <li className="logo_description" style={{ width: 200 }}>Optimize your financial routine—quick, simple, effective.</li>
+              <li className="logo_description" style={{ width: 200 }}>Optimize your financial routine - quick, simple, effective.</li>
             </ul>
           </div>
           <div className="second_block">

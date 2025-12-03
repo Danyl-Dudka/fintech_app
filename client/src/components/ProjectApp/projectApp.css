@@ -1,4 +1,6 @@
 .project_app_wrapper {
+    width: 95%;
+    margin: 1rem auto;
     display: flex;
     flex-direction: column;
 }
