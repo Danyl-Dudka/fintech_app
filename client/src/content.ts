@@ -1,4 +1,5 @@
 import { createContext } from "react";
+import type { AppMode } from "./components/types";
 
 interface AuthContextTypes {
     isAuth: boolean,
@@ -13,6 +14,12 @@ interface ThemeContextTypes {
     theme: string;
     setTheme: (theme: string) => void;
     toggleTheme: () => void;
+}
+
+interface AppModeContextType {
+    mode: AppMode;
+    setMode: (mode: AppMode) => void;
+
 }
 
 
@@ -30,4 +37,10 @@ export const ThemeContext = createContext<ThemeContextTypes>({
     theme: 'dark',
     setTheme: () => { },
     toggleTheme: () => { },
+})
+
+
+export const AppModeContext = createContext<AppModeContextType>({
+    mode: 'finance',
+    setMode: () => { },
 })

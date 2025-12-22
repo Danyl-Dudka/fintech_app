@@ -5,7 +5,7 @@ import './transactionsPage.css';
 import { useNavigate } from "react-router-dom";
 import { Button } from "@mui/material";
 import { api } from "../../api/api";
-export default function TransactionsHistory({ type }: TransactionPageProps) {
+export default function TransactionsPage({ type }: TransactionPageProps) {
   const [transactions, setTransactions] = useState<Transactions[]>([]);
   const [error, setError] = useState<string | null>(null);
   const [visibleCount, setVisibleCount] = useState(10);

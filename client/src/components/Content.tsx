@@ -1,285 +1,42 @@
 import { useContext } from "react";
-import MainPage from "./MainPage/MainPage";
-import { Routes, Route, useLocation } from "react-router-dom";
-import { AuthContext } from "../content";
-import InfoHeader from "./InfoHeader/InfoHeader";
-import InfoFooter from "./InfoFooter/InfoFooter";
-import { AnimatePresence, motion, type Transition } from "framer-motion";
-import ContactsPage from "./ContactsPage/ContactsPage";
-import DashboardPage from "./DashboardPage/DashboardPage";
-import FeaturesPage from "./FeaturesPage/FeaturesPage";
-import PricingPage from "./PricingPage/PricingPage";
-import LoginPage from "./LoginPage/LoginPage";
-import RegisterPage from "./RegisterPage/RegisterPage";
-import ProjectApp from "./ProjectApp/ProjectApp";
-import TransactionsPage from "./TransactionsHistory/TransactionsPage";
-import SavingsPage from "./SavingsPage/SavingsPage";
-import ForgotPasswordPage from "./ForgotPasswordPage/ForgotPasswordPage";
+import { AppModeContext, AuthContext } from "../content";
+import FinanceContent from "./modes/FinanceContent";
+import CryptoContent from "./modes/CryptoContent";
+import { Navigate, Route, Routes, useLocation } from "react-router-dom";
+import { AnimatePresence } from "framer-motion";
 import CreateNewPasswordPage from "./CreateNewPasswordPage/CreateNewPasswordPage";
+import ForgotPasswordPage from "./ForgotPasswordPage/ForgotPasswordPage";
 import EmailVerificationPage from "./EmailVerificationPage/EmailVerificationPage";
-export default function Content() {
-  const { isAuth } = useContext(AuthContext);
+import RegisterPage from "./RegisterPage/RegisterPage";
+import LoginPage from "./LoginPage/LoginPage";
+import InfoFooter from "./InfoFooter/InfoFooter";
+import PricingPage from "./PricingPage/PricingPage";
+import InfoHeader from "./InfoHeader/InfoHeader";
+import FeaturesPage from "./FeaturesPage/FeaturesPage";
+import DashboardPage from "./DashboardPage/DashboardPage";
+import ContactsPage from "./ContactsPage/ContactsPage";
+import MainPage from "./MainPage/MainPage";
+import PageWrapper from "./PageWrapper";
 
+export default function Content() {
+  const { mode } = useContext(AppModeContext);
+  const { isAuth } = useContext(AuthContext);
   const location = useLocation();
 
-  const pageVariants = {
-    initial: { opacity: 0, y: 20 },
-    in: { opacity: 1, y: 0 },
-    out: { opacity: 0, y: -20 },
-  }
-
-  const pageTransition: Transition = {
-    type: "tween",
-    ease: "easeOut",
-    duration: 0.4,
-  }
   return (
     <AnimatePresence mode="wait">
       <Routes location={location} key={location.pathname}>
-        <Route
-          path="/"
-          element={isAuth ? (
-            <motion.div
-              initial="initial"
-              animate="in"
-              exit="out"
-              variants={pageVariants}
-              transition={pageTransition}
-              style={{ height: "100%" }}
-            >
-              <ProjectApp />
-            </motion.div>) : (
-            <motion.div
-              initial="initial"
-              animate="in"
-              exit="out"
-              variants={pageVariants}
-              transition={pageTransition}
-              style={{ height: "100%" }}
-            >
-              <InfoHeader />
-              <MainPage />
-              <InfoFooter />
-            </motion.div>
-          )}
-        ></Route>
-
-        <Route
-          path="/contacts"
-          element={<motion.div
-            initial="initial"
-            animate="in"
-            exit="out"
-            variants={pageVariants}
-            transition={pageTransition}
-            style={{ height: "100%" }}
-          >
-            <InfoHeader />
-            <ContactsPage />
-            <InfoFooter />
-          </motion.div>}
-        />
-
-        <Route
-          path="/dashboard"
-          element={<motion.div
-            initial="initial"
-            animate="in"
-            exit="out"
-            variants={pageVariants}
-            transition={pageTransition}
-            style={{ height: "100%" }}
-          >
-            <InfoHeader />
-            <DashboardPage />
-            <InfoFooter />
-          </motion.div>
-          }
-        />
-
-        <Route
-          path="/features"
-          element={<motion.div
-            initial="initial"
-            animate="in"
-            exit="out"
-            variants={pageVariants}
-            transition={pageTransition}
-            style={{ height: "100%" }}
-          >
-            <InfoHeader />
-            <FeaturesPage />
-            <InfoFooter />
-          </motion.div>
-          }
-        />
-
-        <Route
-          path="/pricing"
-          element={<motion.div
-            initial="initial"
-            animate="in"
-            exit="out"
-            variants={pageVariants}
-            transition={pageTransition}
-            style={{ height: "100%" }}
-          >
-            <InfoHeader />
-            <PricingPage />
-            <InfoFooter />
-          </motion.div>
-          }
-        />
-
-        <Route
-          path="/login"
-          element={<motion.div
-            initial="initial"
-            animate="in"
-            exit="out"
-            variants={pageVariants}
-            transition={pageTransition}
-            style={{ height: "100%" }}
-          >
-            <LoginPage />
-          </motion.div>
-          }
-        />
-
-
-        <Route
-          path="/register"
-          element={<motion.div
-            initial="initial"
-            animate="in"
-            exit="out"
-            variants={pageVariants}
-            transition={pageTransition}
-            style={{ height: "100%" }}
-          >
-            <RegisterPage />
-          </motion.div>
-          }
-        />
-
-
-        <Route
-          path="/email_verification"
-          element={<motion.div
-            initial="initial"
-            animate="in"
-            exit="out"
-            variants={pageVariants}
-            transition={pageTransition}
-            style={{ height: "100%" }}
-          >
-            <EmailVerificationPage />
-          </motion.div>
-          }
-        />
-
-        <Route
-          path="/forgot_password"
-          element={<motion.div
-            initial="initial"
-            animate="in"
-            exit="out"
-            variants={pageVariants}
-            transition={pageTransition}
-            style={{ height: "100%" }}
-          >
-            <ForgotPasswordPage />
-          </motion.div>
-          }
-        />
-
-        <Route
-          path="new_password"
-          element={<motion.div
-            initial="initial"
-            animate="in"
-            exit="out"
-            variants={pageVariants}
-            transition={pageTransition}
-            style={{ height: "100%" }}
-          >
-            <CreateNewPasswordPage />
-          </motion.div>
-          }
-        />
-        <Route
-          path="/app/:userId"
-          element={<motion.div
-            initial="initial"
-            animate="in"
-            exit="out"
-            variants={pageVariants}
-            transition={pageTransition}
-            style={{ height: "100%" }}
-          >
-            <ProjectApp />
-          </motion.div>
-          }
-        />
-
-        <Route
-          path="/app/:userId/all_transactions"
-          element={<motion.div
-            initial="initial"
-            animate="in"
-            exit="out"
-            variants={pageVariants}
-            transition={pageTransition}
-          >
-            <TransactionsPage type='all' />
-          </motion.div>
-          }
-        />
-
-        <Route
-          path="/app/:userId/incomes_transactions"
-          element={<motion.div
-            initial="initial"
-            animate="in"
-            exit="out"
-            variants={pageVariants}
-            transition={pageTransition}
-          >
-            <TransactionsPage type="income" />
-          </motion.div>
-          }
-        />
-
-        <Route
-          path="/app/:userId/expenses_transactions"
-          element={<motion.div
-            initial="initial"
-            animate="in"
-            exit="out"
-            variants={pageVariants}
-            transition={pageTransition}
-          >
-            <TransactionsPage type="expense" />
-          </motion.div>
-          }
-        />
-
-        <Route
-          path="/app/:userId/savings"
-          element={<motion.div
-            initial="initial"
-            animate="in"
-            exit="out"
-            variants={pageVariants}
-            transition={pageTransition}
-          >
-            <SavingsPage />
-          </motion.div>
-          }
-        />
-
-
-
+        <Route path="/" element={<PageWrapper><InfoHeader /><MainPage /><InfoFooter /></PageWrapper>} />
+        <Route path="/pricing" element={<PageWrapper><InfoHeader /><PricingPage /><InfoFooter /></PageWrapper>} />
+        <Route path="/features" element={<PageWrapper><InfoHeader /><FeaturesPage /><InfoFooter /></PageWrapper>} />
+        <Route path="/dashboard" element={<PageWrapper><InfoHeader /><DashboardPage /><InfoFooter /></PageWrapper>} />
+        <Route path="/contacts" element={<PageWrapper><InfoHeader /><ContactsPage /><InfoFooter /></PageWrapper>} />
+        <Route path="/login" element={<PageWrapper><LoginPage /></PageWrapper>} />
+        <Route path="/register" element={<PageWrapper><RegisterPage /></PageWrapper>} />
+        <Route path="/email_verification" element={<PageWrapper><EmailVerificationPage /></PageWrapper>} />
+        <Route path="/forgot_password" element={<PageWrapper><ForgotPasswordPage /></PageWrapper>} />
+        <Route path="/new_password" element={<PageWrapper><CreateNewPasswordPage /></PageWrapper>} />
+        <Route path="/*" element={isAuth ? (<PageWrapper>{mode === 'finance' ? <FinanceContent /> : <CryptoContent />}</PageWrapper>) : (<Navigate to="/login" replace />)} />
       </Routes>
     </AnimatePresence>
   )

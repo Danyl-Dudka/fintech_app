@@ -60,3 +60,5 @@ export interface Goal {
     amount: number;
     date: string;
 }
+
+export type AppMode = 'finance' | 'crypto';

@@ -2,7 +2,7 @@ import { Button, IconButton, Menu, MenuItem } from '@mui/material';
 import './greetingHeader.css'
 import { Sun, BanknoteArrowUp, BanknoteArrowDown, PiggyBank, Moon } from 'lucide-react';
 import { useContext, useState } from 'react';
-import { AuthContext, ThemeContext } from '../../content';
+import { AppModeContext, AuthContext, ThemeContext } from '../../content';
 import { useNavigate } from 'react-router-dom';
 import BalanceControlModal from '../BalanceControlModal/BalanceControlModal';
 import type { ModalMode } from '../types';
@@ -19,6 +19,8 @@ export default function GreetingHeader() {
     const { userId } = useContext(AuthContext);
 
     const { theme, toggleTheme } = useContext(ThemeContext);
+
+    const { mode, setMode } = useContext(AppModeContext);
 
     const handleLogout = () => {
         sessionStorage.removeItem('token');
@@ -53,22 +55,28 @@ export default function GreetingHeader() {
         navigate(`/app/${userId}/savings`)
     }
 
+    const toggleAppMode = () => {
+        setMode(mode === 'finance' ? 'crypto' : 'finance')
+    }
+
     return (
         <>
             <div className="header_wrapper">
                 <div className="upper_part_header">
                     <div className='left_section'>
-                        <p className='title_upper'>Finance Overview</p>
+                        <p className='title_upper'>{mode === 'finance' ? 'Finance Overview' : 'Crypto Overview'}</p>
                     </div>
                     <div className='right_section'>
                         <IconButton className="theme_button" onClick={toggleTheme}>
                             {theme === 'dark' ? <Sun className='theme_icon' fontSize="inherit" color='white' /> : <Moon className='theme_icon' fontSize='inherit' color='white' />}
-                        </IconButton> 
-                        <p className='accounting_info'>Current account: <span className='accounting_option'>Finance</span></p>
-                        <Button onClick={handleSavingsNavigate} className='savings_button'>
-                            <span className='savings_title'>Savings</span>
-                            <PiggyBank fontSize="inherit" color='white' />
-                        </Button>
+                        </IconButton>
+                        <p className='accounting_info'>Current account: <span className='accounting_option' onClick={toggleAppMode}>{mode === 'finance' ? 'Finance' : 'Crypto'}</span></p>
+                        {mode === 'finance' && (
+                            <Button onClick={handleSavingsNavigate} className='savings_button'>
+                                <span className='savings_title'>Savings</span>
+                                <PiggyBank fontSize="inherit" color='white' />
+                            </Button>
+                        )}
                         <div className='user_info'>
                             <Button className="user_button" onClick={handleClick}>
                                 <span className='user_avatar'>{initials}</span>
@@ -90,12 +98,14 @@ export default function GreetingHeader() {
                 </div>
                 <div className="lower_part_header">
                     <div className='text_information'>
-                        <p>Welcome back, {fullname}! <span className='overview_info_subtitle'>This is your financial overview.</span></p>
+                        <p>Welcome back, {fullname}! <span className='overview_info_subtitle'>This is your {mode === 'finance' ? 'financial' : 'crypto'} overview.</span></p>
                     </div>
-                    <div className='control_balance_buttons'>
-                        <Button disableRipple className='income_button' onClick={handleOpenModalIncome}><BanknoteArrowUp className='income_icon_header' /><span className='control_button_text'>Income</span></Button>
-                        <Button disableRipple className='expense_button' onClick={handleOpenModalExpense}><BanknoteArrowDown className='expense_icon_header' /><span className='control_button_text'>Expense</span></Button>
-                    </div>
+                    {mode === 'finance' && (
+                        <div className='control_balance_buttons'>
+                            <Button disableRipple className='income_button' onClick={handleOpenModalIncome}><BanknoteArrowUp className='income_icon_header' /><span className='control_button_text'>Income</span></Button>
+                            <Button disableRipple className='expense_button' onClick={handleOpenModalExpense}><BanknoteArrowDown className='expense_icon_header' /><span className='control_button_text'>Expense</span></Button>
+                        </div>
+                    )}
                 </div>
             </div>
             <BalanceControlModal
