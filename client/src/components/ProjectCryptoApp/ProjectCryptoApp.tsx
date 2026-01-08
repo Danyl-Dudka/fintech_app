@@ -1,5 +1,6 @@
 import BitcoinPrice from '../BitcoinPrice/BitcoinPrice';
-import CryptoBalance from '../CryptoBalance/CryptoBalance';
+import CreateTransactionHistory from '../CreateTransactionHistory/CreateTransactionHistory';
+import CryptoTradingHistory from '../CryptoTradingHistory/CryptoTradingHistory';
 import GreetingHeader from '../GreetingHeader/GreetingHeader';
 import './projectCryptoApp.css';
 
@@ -8,7 +9,8 @@ export default function ProjectCryptoApp() {
         <div className="project_crypto_app_wrapper">
             <GreetingHeader />
             <BitcoinPrice />
-            <CryptoBalance />
+            <CreateTransactionHistory />
+            <CryptoTradingHistory />
         </div>
     )
 }
