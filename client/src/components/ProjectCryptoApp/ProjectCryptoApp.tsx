@@ -1,6 +1,5 @@
 import BitcoinPrice from '../BitcoinPrice/BitcoinPrice';
 import CreateTransactionHistory from '../CreateTransactionHistory/CreateTransactionHistory';
-import CryptoTradingHistory from '../CryptoTradingHistory/CryptoTradingHistory';
 import GreetingHeader from '../GreetingHeader/GreetingHeader';
 import './projectCryptoApp.css';
 
@@ -10,7 +9,6 @@ export default function ProjectCryptoApp() {
             <GreetingHeader />
             <BitcoinPrice />
             <CreateTransactionHistory />
-            <CryptoTradingHistory />
         </div>
     )
 }

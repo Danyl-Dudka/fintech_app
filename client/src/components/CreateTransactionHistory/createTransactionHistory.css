@@ -20,18 +20,19 @@
     align-self: flex-end;
 }
 
-.trading_transaction_btn:hover {
+.trading_transaction_btn:hover, .add_transaction_btn:hover {
     background-color: #0056b3 !important;
 }
 
-.trading_transaction_btn:active {
+.trading_transaction_btn:active, .add_transaction_btn:active {
     background-color: #004085;
     transform: scale(0.98);
 }
 
 .crypto_transaction_form {
     display: flex;
-    margin-top: 0.75rem;
+    justify-content: space-between;
+    margin-top: 2rem;
     background: #ffffff;
     border: 1px solid rgba(16, 24, 40, 0.06);
     box-shadow: 0 6px 18px rgba(16, 24, 40, 0.06);
@@ -53,6 +54,11 @@
     font-size: 1rem !important;
 }
 
+.long_toggle:hover,
+.short_toggle:hover {
+    background-color: gray!important;
+}
+
 .long_toggle.Mui-selected {
     background-color: #02ad49 !important;
 }
@@ -62,7 +68,7 @@
 }
 
 .main_textfield {
-    width: 16rem!important;
+    width: 12rem !important;
 }
 
 .main_textfield .MuiInputBase-root {
@@ -91,4 +97,38 @@
 
 .main_textfield .MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline {
     border-color: #00ff7f;
+}
+
+.input_start {
+    color: white !important;
+}
+
+.add_transaction_btn {
+    align-items: center!important;
+    box-sizing: border-box !important;
+    font-size: 1rem !important;
+    font-weight: 600 !important;
+    width: 10rem !important;
+    height: 2.5rem !important;
+    border: none !important;
+    border-radius: 0.5rem !important;
+    background-color: #007bff !important;
+    color: white !important;
+    cursor: pointer !important;
+    transition: background-color 0.3s ease !important;
+    align-self: flex-end!important;
+}
+
+.crypto_notification {
+    margin: 2rem auto;
+    font-size: 1.4rem;
+    width: 18rem!important;
+}
+
+.add_transaction_btn:disabled {
+    background-color: rgba(255, 255, 255, 0.12) !important;
+    color: rgba(255, 255, 255, 0.4) !important;
+    cursor: not-allowed !important;
+    box-shadow: none !important;
+    transform: none !important;
 }

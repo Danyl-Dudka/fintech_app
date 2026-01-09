@@ -7,6 +7,7 @@ import bcrypt from "bcrypt";
 import { User } from "./models/User.js";
 import { Transaction } from "./models/Transaction.js";
 import { Savings } from "./models/SavingsGoal.js";
+import { CryptoTransaction } from "./models/CryptoTransaction.js";
 import { PasswordReset } from "./models/PasswordReset.js";
 import nodemailer from "nodemailer";
 import { createAccessToken } from "./tokens/CreateAccessToken.js";
@@ -131,7 +132,7 @@ app.post("/verify_email", async (req, res) => {
 app.post("/login", async (req, res) => {
   const normalizedEmail = req.body.email.toLowerCase().trim();
   const { password } = req.body;
-  
+
   try {
     const user = await User.findOne({ email: normalizedEmail });
     if (!user) {
@@ -628,6 +629,57 @@ app.post("/reset-password", async (req, res) => {
   } catch (error) {
     console.error("Error resetting password: ", error);
     return res.status(500).json({ message: "Server error!" });
+  }
+});
+
+app.post("/user/:id/add_trade_transaction", async (req, res) => {
+  const { id } = req.params;
+  const {
+    cryptoType,
+    cryptoAmount,
+    cryptoPair,
+    entryPrice,
+    exitPrice,
+    leverage,
+    tradeResult,
+  } = req.body;
+
+  if (
+    cryptoType == null ||
+    cryptoAmount == null ||
+    !cryptoPair ||
+    entryPrice == null ||
+    exitPrice == null ||
+    leverage == null ||
+    tradeResult == null
+  ) {
+    return res.status(400).send({ message: "All of fields are required!" });
+  }
+
+  try {
+    const user = await User.findById(id);
+
+    if (!user) {
+      return res.status(404).send({ message: "User not found!" });
+    }
+
+    const cryptoTransaction = new CryptoTransaction({
+      userId: user._id,
+      cryptoAmount: Number(cryptoAmount),
+      tradeType: cryptoType,
+      pairName: cryptoPair,
+      entryPrice: Number(entryPrice),
+      exitPrice: Number(exitPrice),
+      leverage: Number(leverage),
+      tradeResult: Number(tradeResult),
+    });
+
+    await cryptoTransaction.save();
+
+    res.json({ message: "Crypto transaction was successfully created!" });
+  } catch (error) {
+    console.error("Error: ", error);
+    res.status(500).send({ message: "Server error!" });
   }
 });
 
